@@ -3,11 +3,11 @@
 const { model, Schema } = require('mongoose')
 const {ObjectId} = require("mongodb");
 
-const DOCUMENT_NAME = 'user';
-const COLLECTION_NAME = 'users';
+const DOCUMENT_NAME = 'incident_type';
+const COLLECTION_NAME = 'incident_type';
 
 
-const userSchema = new Schema({
+const incidentTypeSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -16,6 +16,7 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true,
+        lowercase: true
     },
     password: {
         type: String,
@@ -41,4 +42,4 @@ const userSchema = new Schema({
     collection : COLLECTION_NAME
 });
 
-module.exports = model(DOCUMENT_NAME, userSchema)
+module.exports = model(DOCUMENT_NAME, incidentTypeSchema)

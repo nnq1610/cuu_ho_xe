@@ -1,12 +1,10 @@
 'use strict'
-
+require('dotenv').config()
 const mongoose = require('mongoose');
 
-const {db} = require('../configs/config.mongodb.js');
 
 
-const connectString = `${db.http}://${db.name}:${db.password}.${db.domain}.mongodb.net/${db.hash}`;
-
+const connectString = process.env.MONGODB_URI || 'mongodb://localhost:27017/db';
 
 class Database {
 
@@ -15,13 +13,7 @@ class Database {
     }
 
     connect(type = 'mongodb'){
-
-        // if(1 == 1){
-        //     mongoose.set('debug', true);
-        //     mongoose.set('color', true);
-        // }
-
-        mongoose.connect(connectString/*, maxPoolSize : 50*/).then( _ => console.log(`Mongodb Success Port::${connectString} !!!`))
+        mongoose.connect(connectString).then( _ => console.log(`Mongodb Success Port::${connectString} !!!`))
             .catch( err => console.log(err));
     }
 

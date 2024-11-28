@@ -23,14 +23,14 @@ class ConflictRequestError extends ErrorResponse{
 
 class BadRequestError extends ErrorResponse{
 
-    constructor(message = ReasonPhrases.BAD_REQUEST, statusCode = StatusCodes.BAD_REQUEST){
+    constructor(message = "Bad request", statusCode = 404){
         super(message, statusCode);
     }
 }
 
 class AuthFailureError extends ErrorResponse{
 
-    constructor(message = ReasonPhrases.UNAUTHORIZED, statusCode = StatusCodes.UNAUTHORIZED){
+    constructor(message = "Unauthorize", statusCode = 401){
         super(message, statusCode);
     }
 }
