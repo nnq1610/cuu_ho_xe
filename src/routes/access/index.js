@@ -5,6 +5,8 @@ const router = express.Router();
 
 // Sign up
 router.post('/signup', asyncHandler(accessController.signUp));
+
+// Login
 router.post('/login', asyncHandler(accessController.login));
 
 // Logout
@@ -14,7 +16,11 @@ router.post('/logout', asyncHandler(accessController.logout))
 router.get('/user/:id', asyncHandler(accessController.getUserById))
 
 //Get list users
-
 router.get('/users', asyncHandler(accessController.getListUsers))
+
+//changePassword
+router.post('/changePassword', asyncHandler(accessController.changePassword))
+
+
 
 module.exports = router;

@@ -1,43 +1,56 @@
-const { model, Schema } = require('mongoose')
-const {ObjectId} = require("mongodb");
+'use strict';
 
-const DOCUMENT_NAME = 'rescue_unit';
-const COLLECTION_NAME = 'rescues_unit';
-const rescueUnitSchema = new mongoose.Schema({
+const { model, Schema } = require('mongoose');
+
+const DOCUMENT_NAME = 'rescueUnit';
+const COLLECTION_NAME = 'rescueUnits';
+
+const rescueUnitSchema = new Schema({
     userId: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'users',
         required: true
     },
+
     name: {
         type: String,
         required: true
     },
-    services: [{
-        type: Schema.Types.ObjectId,
-        ref: 'IncidentType',
-        price: {
-            type: Number,
-            required: true
+    incidentTypes: [
+        {
+            name: {
+                type: String,
+                required: true
+            },
+            description: {
+                type: String,
+                default: ''
+            },
+            vehicleType: {
+                type: String, // Ví dụ: "Car", "Motorcycle", "Truck"
+                required: true
+            },
+            price: {
+                type: Number,
+                required: true
+            },
+            address: {
+                type: String,
+                require: true
+            }
         }
-    }],
+    ],
     rating: {
         type: Number,
         default: 0
     },
     activeStatus: {
         type: Boolean,
-        default: true // Để bật/tắt trạng thái hoạt động
+        default: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-},{
-    timestamps : true,
-    collection : COLLECTION_NAME
+}, {
+    timestamps: true,
+    collection: COLLECTION_NAME
 });
 
-
-// Export the model
-module.exports = model('RescueUnit', rescueUnitSchema);
+module.exports = model(DOCUMENT_NAME, rescueUnitSchema);

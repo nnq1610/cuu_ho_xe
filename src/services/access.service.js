@@ -139,7 +139,7 @@ class AccessService {
     static changePassword = async({userId, oldPassword, newPassword}) => {
         if(!newPassword || !oldPassword) throw new BadRequestError('All password is required');
 
-        const user = await userModel.findById({userId})
+        const user = await userModel.findById(userId)
 
         if(!user) throw new BadRequestError('User does not exist');
 

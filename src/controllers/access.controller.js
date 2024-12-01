@@ -72,6 +72,13 @@ class AccessController {
             metadata: await  AccessService.listUsers(req.body)
         }).send(res)
     }
+
+    changePassword = async(req, res, next) => {
+        new SuccessResponse({
+            message:'Password change successfully',
+            metadata: await AccessService.changePassword(req.body)
+        }).send(res)
+    }
 }
 
 module.exports = new AccessController();
