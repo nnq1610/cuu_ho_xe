@@ -9,7 +9,7 @@ router.post('/rescue-units', asyncHandler(rescueController.createRescueUnit));
 router.get('/rescue-units/active', asyncHandler(rescueController.getActiveRescueUnits));
 
 // addIncidentType
-router.post('/addIncident/:unitId', asyncHandler(rescueController.addIncidentType))
+router.post('/addIncident', asyncHandler(rescueController.addIncidentType))
 
 // updateIncidentType
 // router.post('/rescue', asyncHandler(rescueController.))

@@ -28,7 +28,10 @@ class RescueUnitService {
         });
 
         if (!newRescueUnit) throw new BadRequestError('Unable to create Rescue Unit');
-        return newRescueUnit;
+        return getInforData({
+            fields: [ 'name', 'incidentTypes'],
+            object: newRescueUnit
+        });
     }
 
 
@@ -40,14 +43,15 @@ class RescueUnitService {
 
 
     static async addIncidentType({userId,incidentTypeData} ) {
-        if (!userId || !incidentTypeData) throw new BadRequestError("User ID and incident type data are required");
 
+        if (!userId || !incidentTypeData) throw new BadRequestError("User ID and incident type data are required");
         const rescueUnit = await RescueUnit.findOne({userId})
         if (!rescueUnit) throw new NotFoundError("Rescue Unit not found for the given User ID");
         rescueUnit.incidentTypes.push(incidentTypeData);
 
         await rescueUnit.save();
         return rescueUnit;
+
     }
 
     static async updateIncidentType({userId, updateData}) {
@@ -76,7 +80,6 @@ class RescueUnitService {
     static async searchRescueUnits(filters) {
         const query = {};
 
-        // Kiểm tra và thêm các điều kiện tìm kiếm vào query nếu có
         if (filters.name) {
             query.name = { $regex: filters.name, $options: 'i' }; // Tìm kiếm không phân biệt chữ hoa chữ thường
         }
@@ -99,9 +102,29 @@ class RescueUnitService {
             query.address = { $regex: filters.address, $options: 'i' }; // Tìm kiếm không phân biệt chữ hoa chữ thường
         }
 
+        if (filters.address) {
+            query['incidentTypes'] = {
+                $elemMatch: {
+                    address: { $regex: filters.address, $options: 'i' }
+                }
+            };
+        }
+
         try {
             const rescueUnits = await RescueUnit.find(query);
-            return rescueUnits;
+            console.log("Before getInforData:", rescueUnits);
+
+            const result = rescueUnits.map(unit => ({
+                name: unit.name,
+                incidentTypes: unit.incidentTypes.map(type => ({
+                    name: type.name,
+                    vehicleType: type.vehicleType,
+                    price: type.price,
+                    address: type.address,
+                })),
+            }));
+
+            return result;
         } catch (error) {
             console.error('Error searching rescue units:', error);
             throw error;

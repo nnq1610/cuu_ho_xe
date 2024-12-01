@@ -21,12 +21,9 @@ class RescueController {
 
     }
     addIncidentType = async (req, res, next) => {
-
-        const unitId = req.params.unitId;  // Lấy unitId từ URL
-        const incidentTypeData = req.body; // Lấy dữ liệu loại sự cố từ body của request
         new SuccessResponse({
             message : 'Update success !!!',
-            metadata : await RescueService.addIncidentType(unitId, incidentTypeData)
+            metadata : await RescueService.addIncidentType(req.body)
         }).send(res);
     }
 
