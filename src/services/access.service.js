@@ -31,6 +31,9 @@ class AccessService {
             // Tạo token
             const token = jwt.sign(
                 { userId: newUser._id, role: newUser.role },
+
+
+
                 process.env.JWT_SECRET,
                 { expiresIn: '1d' }
             );

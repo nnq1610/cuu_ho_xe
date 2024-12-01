@@ -1,14 +1,11 @@
 const RescueUnit = require('../models/rescueUnit.model'); // Model của RescueUnit
 const { BadRequestError, NotFoundError } = require('../core/error.response');
 const { getInforData } = require("../utils");
+const RescueService = require("./rescue.service");
 
 class RescueUnitService {
 
-    /**
-     * Tạo mới một RescueUnit.
-     * @param {Object} rescueUnitData - Dữ liệu RescueUnit mới.
-     * @returns {Object} - Thông tin RescueUnit đã tạo.
-     */
+
     static async createRescueUnit( rescueUnitData) {
 
         if (!rescueUnitData) {
@@ -34,57 +31,31 @@ class RescueUnitService {
         return newRescueUnit;
     }
 
-    /**
-     * Lấy danh sách tất cả các RescueUnit đang hoạt động.
-     * @returns {Array} - Danh sách các RescueUnit.
-     */
+
     static async getActiveRescueUnits() {
         const activeUnits = await RescueUnit.find({ activeStatus: true });
         if (!activeUnits || activeUnits.length === 0) throw new NotFoundError('No active rescue units found');
         return activeUnits;
     }
 
-    /**
-     * Thêm một loại sự cố vào RescueUnit.
-     * @param {String} unitId - ID của RescueUnit.
-     * @param {Object} incidentTypeData - Thông tin loại sự cố cần thêm.
-     * @returns {Object} - RescueUnit sau khi cập nhật.
-     */
-    static async addIncidentType(unitId, incidentTypeData) {
-        const updatedUnit = await RescueUnit.findByIdAndUpdate(
-            unitId,
-            { $push: { incidentTypes: incidentTypeData } },
-            { new: true }
-        );
-        if (!updatedUnit) throw new NotFoundError('RescueUnit not found');
-        return updatedUnit;
+
+    static async addIncidentType({userId,incidentTypeData} ) {
+        if (!userId || !incidentTypeData) throw new BadRequestError("User ID and incident type data are required");
+
+        const rescueUnit = await RescueUnit.findOne({userId})
+        if (!rescueUnit) throw new NotFoundError("Rescue Unit not found for the given User ID");
+        rescueUnit.incidentTypes.push(incidentTypeData);
+
+        await rescueUnit.save();
+        return rescueUnit;
     }
 
-    /**
-     * Cập nhật thông tin một loại sự cố trong RescueUnit.
-     * @param {String} unitId - ID của RescueUnit.
-     * @param {String} incidentTypeId - ID của loại sự cố cần cập nhật.
-     * @param {Object} updateData - Dữ liệu cập nhật.
-     * @returns {Object} - RescueUnit sau khi cập nhật.
-     */
-    static async updateIncidentType({unitId, incidentTypeId, updateData}) {
-        const unit = await RescueUnit.findById(unitId);
-        if (!unit) throw new NotFoundError('RescueUnit not found');
+    static async updateIncidentType({userId, updateData}) {
+        if (!userId || !updateData) throw new BadRequestError('User ID and update data are required');
+        const rescueUnit = await RescueUnit.findOne({ userId });
 
-        const incidentType = unit.incidentTypes.id(incidentTypeId);
-        if (!incidentType) throw new NotFoundError('IncidentType not found');
-
-        Object.assign(incidentType, updateData);
-        await unit.save();
-        return unit;
     }
 
-    /**
-     * Xóa một loại sự cố khỏi RescueUnit.
-     * @param {String} unitId - ID của RescueUnit.
-     * @param {String} incidentTypeId - ID của loại sự cố cần xóa.
-     * @returns {Object} - RescueUnit sau khi cập nhật.
-     */
     static async removeIncidentType(unitId, incidentTypeId) {
         const updatedUnit = await RescueUnit.findByIdAndUpdate(
             unitId,
@@ -95,12 +66,7 @@ class RescueUnitService {
         return updatedUnit;
     }
 
-    /**
-     * Cập nhật thông tin của một RescueUnit.
-     * @param {String} unitId - ID của RescueUnit.
-     * @param {Object} updateData - Dữ liệu cập nhật.
-     * @returns {Object} - RescueUnit sau khi cập nhật.
-     */
+
     static async updateRescueUnit(unitId, updateData) {
         const updatedUnit = await RescueUnit.findByIdAndUpdate(unitId, updateData, { new: true });
         if (!updatedUnit) throw new NotFoundError('RescueUnit not found');
