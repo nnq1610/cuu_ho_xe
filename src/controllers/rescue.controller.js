@@ -50,7 +50,7 @@ class RescueController {
     searchRescueUnits = async(req, res, next) => {
         new SuccessResponse({
             message: "Search success !!!",
-            metadata: await RescueService.searchRescueUnits(req.query)
+            metadata: await RescueService.searchRescueUnits(req.body)
         }).send(res)
     }
 

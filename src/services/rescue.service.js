@@ -1,6 +1,6 @@
 const RescueUnit = require('../models/rescueUnit.model'); // Model của RescueUnit
 const { BadRequestError, NotFoundError } = require('../core/error.response');
-const { getInforData } = require("../utils");
+const { getInforData, unGetSelectData } = require("../utils");
 const RescueService = require("./rescue.service");
 
 class RescueUnitService {
@@ -49,9 +49,17 @@ class RescueUnitService {
         if (!rescueUnit) throw new NotFoundError("Rescue Unit not found for the given User ID");
         rescueUnit.incidentTypes.push(incidentTypeData);
 
-        await rescueUnit.save();
-        return rescueUnit;
-
+        const newRescue = await rescueUnit.save();
+        const result = {
+            name: newRescue.name,
+            incidentTypes: newRescue.incidentTypes.map(type => ({
+                name: type.name,
+                vehicleType: type.vehicleType,
+                price: type.price,
+                address: type.address,
+            })),
+        };
+        return result;
     }
 
     static async updateIncidentType({userId, updateData}) {
@@ -81,50 +89,41 @@ class RescueUnitService {
         const query = {};
 
         if (filters.name) {
-            query.name = { $regex: filters.name, $options: 'i' }; // Tìm kiếm không phân biệt chữ hoa chữ thường
-        }
-        if(filters.incidentTypes) {
-            query.incidentTypes = filters.incidentTypes.map(({ name }) => name.toLowerCase());
-        }
-        if (filters.vehicleType) {
-            query['incidentTypes'] = {
-                $elemMatch: {
-                    vehicleType: filters.vehicleType // Tìm kiếm incidentTypes có vehicleType phù hợp
-                }
-            };
-        }
-
-        if (filters.price) {
-            query['incidentTypes.price'] = filters.price; // Tìm kiếm theo giá
-        }
-
-        if (filters.address) {
-            query.address = { $regex: filters.address, $options: 'i' }; // Tìm kiếm không phân biệt chữ hoa chữ thường
-        }
-
-        if (filters.address) {
-            query['incidentTypes'] = {
-                $elemMatch: {
-                    address: { $regex: filters.address, $options: 'i' }
-                }
-            };
+            query.name = { $regex: filters.name, $options: 'i' }; // Tìm kiếm theo tên (không phân biệt chữ hoa chữ thường)
         }
 
         try {
+            // Lấy dữ liệu Rescue Units dựa trên query
             const rescueUnits = await RescueUnit.find(query);
-            console.log("Before getInforData:", rescueUnits);
+            const filteredUnits = rescueUnits.map(unit => {
+                const incidentTypes = unit.incidentTypes || [];
 
-            const result = rescueUnits.map(unit => ({
-                name: unit.name,
-                incidentTypes: unit.incidentTypes.map(type => ({
-                    name: type.name,
-                    vehicleType: type.vehicleType,
-                    price: type.price,
-                    address: type.address,
-                })),
-            }));
+                const filteredIncidentTypes = incidentTypes.filter(type => {
+                    let isValid = true;
 
-            return result;
+                    // Lọc theo vehicleType
+                    if (filters.vehicleType) {
+                        isValid = isValid && type.vehicleType.toLowerCase() === filters.vehicleType.toLowerCase();
+                    }
+
+                    // Lọc theo address
+                    if (filters.address) {
+                        isValid = isValid && type.address.includes(filters.address);
+                    }
+
+                    return isValid;
+                });
+
+                // Trả về đối tượng với incidentTypes đã được lọc
+                return {
+                    ...unit._doc,
+                    incidentTypes: filteredIncidentTypes
+                };
+            });
+
+            const finalResult = filteredUnits.filter(unit => unit.incidentTypes && unit.incidentTypes.length > 0);
+            console.log('result: ', finalResult);
+            return finalResult;
         } catch (error) {
             console.error('Error searching rescue units:', error);
             throw error;

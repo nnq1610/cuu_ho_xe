@@ -51,19 +51,19 @@ const transformToObjectId = (id) => {
   }
 }
 
-const replacePlaceHolder = async (template, params) => {
-  Object.keys(params).forEach(k => {
-    const placeHolder = `{{ ${k}}}`//verify key
-    template = template.replace(new RegExp(placeHolder, 'g'), params[k])
+// const replacePlaceHolder = async (template, params) => {
+//   Object.keys(params).forEach(k => {
+//     const placeHolder = `{{ ${k}}}`//verify key
+//     template = template.replace(new RegExp(placeHolder, 'g'), params[k])
+//
+//     return template
+//   })}
 
-    return template
-  })}
 module.exports = {
   getInforData,
   getSelectData,
   unGetSelectData,
   removeUndefinedObject,
   updateNestedObjectParser,
-  transformToObjectId,
-  replacePlaceHolder
+  transformToObjectId
 };
