@@ -6,5 +6,7 @@ router.use('/v1/api', require('./access'));
 
 router.use(checkJWT);
 router.use('/v1/api', require('./rescue'));
+router.use('/v1/api', require('./review'));
+
 
 module.exports = router;

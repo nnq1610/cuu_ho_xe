@@ -31,10 +31,10 @@ const userSchema = new Schema({
         required: true
     },
     address: {
-        province: { type: String, required: true },
-        district: { type: String, required: true },
-        ward: { type: String, required: true },
-        street: { type: String, required: true }
+        province: { type: String },
+        district: { type: String},
+        ward: { type: String},
+        street: { type: String}
     },
 }, {
     timestamps : true,

@@ -53,6 +53,12 @@ class RescueController {
             metadata: await RescueService.searchRescueUnits(req.body)
         }).send(res)
     }
+    updateIncidentType = async(req, res, next) => {
+        new SuccessResponse({
+            message: "update success !!!",
+            metadata:  await  RescueService.updateIncidentType(req.body)
+        }).send(res)
+    }
 
 
 

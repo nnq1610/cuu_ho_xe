@@ -31,4 +31,4 @@ const reviewSchema = new Schema({
 });
 
 // Export the model
-module.exports = model('Review', reviewSchema);
+module.exports = model(DOCUMENT_NAME, reviewSchema);

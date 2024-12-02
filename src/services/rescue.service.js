@@ -40,8 +40,6 @@ class RescueUnitService {
         if (!activeUnits || activeUnits.length === 0) throw new NotFoundError('No active rescue units found');
         return activeUnits;
     }
-
-
     static async addIncidentType({userId,incidentTypeData} ) {
 
         if (!userId || !incidentTypeData) throw new BadRequestError("User ID and incident type data are required");
@@ -62,13 +60,31 @@ class RescueUnitService {
         return result;
     }
 
-    static async updateIncidentType({userId, updateData}) {
-        if (!userId || !updateData) throw new BadRequestError('User ID and update data are required');
+    static async updateIncidentType({ userId, incidentTypeId, updateData }) {
+        if (!userId || !incidentTypeId || !updateData) {
+            throw new BadRequestError('User ID, Incident Type ID, and update data are required');
+        }
+
+        // Tìm RescueUnit của người dùng
         const rescueUnit = await RescueUnit.findOne({ userId });
+        if (!rescueUnit) {
+            throw new NotFoundError("Rescue Unit not found for the given User ID");
+        }
 
-    }
+        // Tìm Incident Type trong Rescue Unit
+        const incidentType = rescueUnit.incidentTypes.id(incidentTypeId);
+        if (!incidentType) {
+            throw new NotFoundError("Incident Type not found for the given ID");
+        }
 
-    static async removeIncidentType(unitId, incidentTypeId) {
+        // Cập nhật dữ liệu Incident Type
+        Object.assign(incidentType, updateData);
+
+        // Lưu lại RescueUnit với thay đổi
+        await rescueUnit.save();
+}
+
+        static async removeIncidentType({unitId, incidentTypeId}) {
         const updatedUnit = await RescueUnit.findByIdAndUpdate(
             unitId,
             { $pull: { incidentTypes: { _id: incidentTypeId } } },
