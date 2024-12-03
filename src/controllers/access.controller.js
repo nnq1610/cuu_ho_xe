@@ -63,7 +63,7 @@ class AccessController {
     getUserById = async(req, res, next) => {
         new SuccessResponse({
             message:'Get user successfully',
-            metadata: await AccessService.getUserById(req.params.id)
+            metadata: await AccessService.getUserById(req.userId)
         }).send(res)
     }
     getListUsers = async(req, res, next) => {

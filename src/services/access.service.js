@@ -92,6 +92,7 @@ class AccessService {
             fields: ['_id', 'name', 'email', 'phone', 'role', 'address'],
             object: user
         });
+
     };
 
     static updateUser = async ({id, updateData}) => {

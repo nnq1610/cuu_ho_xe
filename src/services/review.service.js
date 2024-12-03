@@ -70,7 +70,6 @@ class ReviewService {
         if (!reviewId || !updateData) {
             throw new BadRequestError("reviewId and update data are required.");
         }
-
         const updatedReview = await Review.findByIdAndUpdate(reviewId, updateData, { new: true });
         if (!updatedReview) {
             throw new NotFoundError("Review not found.");

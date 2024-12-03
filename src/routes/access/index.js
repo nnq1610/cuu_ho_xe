@@ -13,7 +13,7 @@ router.post('/login', asyncHandler(accessController.login));
 router.post('/logout', asyncHandler(accessController.logout))
 
 //Get user byId
-router.get('/user/:id', asyncHandler(accessController.getUserById))
+router.get('/user/', asyncHandler(accessController.getUserById))
 
 //Get list users
 router.get('/users', asyncHandler(accessController.getListUsers))
