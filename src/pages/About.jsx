@@ -31,22 +31,22 @@ const About = () => {
             Dịch vụ cứu hộ của chúng tôi được thiết kế để mang lại sự tiện lợi và nhanh chóng cho khách hàng. Được trang bị đầy đủ thiết bị cứu hộ hiện đại, chúng tôi cam kết mang lại giải pháp khẩn
             cấp hiệu quả nhất. Bạn chỉ cần gọi, và chúng tôi sẽ có mặt ngay lập tức để giúp bạn khắc phục sự cố.
           </p>
-          <p className="text-[14px] md:text-[18px] px-5 mt-3">
-            Từ sự kiện doanh nghiệp đến họp mặt công ty, Haven Hotel cung cấp đầy đủ các dịch vụ và tiện nghi đáp ứng mọi nhu cầu của quý khách và đồng nghiệp.
-          </p>
-          <p className="text-[14px] md:text-[18px] px-5 mt-3">
-            Dù quý khách muốn tổ chức một sự kiện hay các dịp kỷ niệm đặc biệt khác, Haven Hotel là lựa chọn tuyệt vời cho quý khách với phòng chức năng rộng lớn, được trang bị đầy đủ để sẵn sàng đáp
-            ứng mọi yêu cầu.
-          </p>
-          <p className="text-[14px] md:text-[18px] px-5 mt-3">
-            Hãy tận hưởng thời gian vui vẻ cùng cả gia đình với hàng loạt tiện nghi giải trí tại Haven Hotel, một khách sạn tuyệt vời phù hợp cho mọi kỳ nghỉ bên người thân. Hãy tận hưởng trải nghiệm
-            lưu trú có một không hai tại tòa nhà mang đậm dấu ấn lịch sử của Haven Hotel, điều quý khách khó có thể tìm thấy tại bất kỳ đâu.
-          </p>
-          <p className="text-[14px] md:text-[18px] px-5 mt-3">
-            Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Haven
-            Hotel. Nếu dự định có một kỳ nghỉ dài, thì Haven Hotel chính là lựa chọn dành cho quý khách. Với đầy đủ tiện nghi và chất lượng dịch vụ tuyệt vời, Haven Hotel sẽ khiến quý khách cảm thấy
-            thoải mái như đang ở nhà vậy.
-          </p>
+          {/*<p className="text-[14px] md:text-[18px] px-5 mt-3">*/}
+          {/*  Từ sự kiện doanh nghiệp đến họp mặt công ty, Haven Hotel cung cấp đầy đủ các dịch vụ và tiện nghi đáp ứng mọi nhu cầu của quý khách và đồng nghiệp.*/}
+          {/*</p>*/}
+          {/*<p className="text-[14px] md:text-[18px] px-5 mt-3">*/}
+          {/*  Dù quý khách muốn tổ chức một sự kiện hay các dịp kỷ niệm đặc biệt khác, Haven Hotel là lựa chọn tuyệt vời cho quý khách với phòng chức năng rộng lớn, được trang bị đầy đủ để sẵn sàng đáp*/}
+          {/*  ứng mọi yêu cầu.*/}
+          {/*</p>*/}
+          {/*<p className="text-[14px] md:text-[18px] px-5 mt-3">*/}
+          {/*  Hãy tận hưởng thời gian vui vẻ cùng cả gia đình với hàng loạt tiện nghi giải trí tại Haven Hotel, một khách sạn tuyệt vời phù hợp cho mọi kỳ nghỉ bên người thân. Hãy tận hưởng trải nghiệm*/}
+          {/*  lưu trú có một không hai tại tòa nhà mang đậm dấu ấn lịch sử của Haven Hotel, điều quý khách khó có thể tìm thấy tại bất kỳ đâu.*/}
+          {/*</p>*/}
+          {/*<p className="text-[14px] md:text-[18px] px-5 mt-3">*/}
+          {/*  Khách sạn này là lựa chọn hoàn hảo cho các kỳ nghỉ mát lãng mạn hay tuần trăng mật của các cặp đôi. Quý khách hãy tận hưởng những đêm đáng nhớ nhất cùng người thương của mình tại Haven*/}
+          {/*  Hotel. Nếu dự định có một kỳ nghỉ dài, thì Haven Hotel chính là lựa chọn dành cho quý khách. Với đầy đủ tiện nghi và chất lượng dịch vụ tuyệt vời, Haven Hotel sẽ khiến quý khách cảm thấy*/}
+          {/*  thoải mái như đang ở nhà vậy.*/}
+          {/*</p>*/}
           {/*<p className="text-[14px] md:text-[18px] px-5 mt-3">*/}
           {/*  Du lịch một mình cũng không hề kém phần thú vị và Haven Hotel là nơi thích hợp dành riêng cho những ai đề cao sự riêng tư trong kỳ lưu trú. Một trong những đặc điểm chính của khách sạn này*/}
           {/*  là các liệu pháp spa đa dạng. Hãy nâng niu bản thân bằng các liệu pháp thư giãn, phục hồi giúp quý khách tươi trẻ thân, tâm.*/}
