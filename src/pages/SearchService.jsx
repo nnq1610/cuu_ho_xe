@@ -31,6 +31,10 @@ const SearchService = () => {
           },
         });
         const { metadata } = response.data;
+        if (metadata && metadata.length > 0) {
+          const userId = metadata[0].userId;
+          localStorage.setItem('userId', userId);
+        }
         const allIncidentTypes = metadata.reduce((acc, unit) => {
           return acc.concat(unit.incidentTypes || []);
         }, []);
@@ -65,8 +69,15 @@ const SearchService = () => {
     setIsLoading(true); // Hiển thị hiệu ứng loading
     setTimeout(() => {
       setIsLoading(false);
-      navigate(`/serviceDetail/${id}`); // Điều hướng tới trang chi tiết
-    }, 1000); // Thời gian giả lập tải dữ liệu
+      navigate(`/serviceDetail/${id}`);
+    }, 1000);
+  };
+
+  const handleReview = (serviceId) => {
+    setIsLoading(true); // Hiển thị hiệu ứng loading
+    setTimeout(() => {
+      navigate(`/reviews/${serviceId}`, { state: { serviceId } });
+    },1000)
   };
 
   return (
@@ -140,12 +151,20 @@ const SearchService = () => {
                     <div className="flex items-center mt-2">
                       <h2 className="text-sm md:text-base ml-2">{service.vehicleType || 'N/A'}</h2>
                     </div>
-                    <button
-                        onClick={() => handleViewDetails(service._id)} // Thêm sự kiện onClick
-                        className="h-10 w-full md:w-36 bg-gray-300 rounded-full hover:bg-red-500 text-gray-700 hover:text-white mt-4"
-                    >
-                      Xem chi tiết
-                    </button>
+                    <div className="flex justify-between gap-2 mt-4">
+                      <button
+                          onClick={() => handleViewDetails(service._id)}
+                          className="h-10 w-full md:w-36 bg-gray-300 rounded-full hover:bg-red-500 text-gray-700 hover:text-white"
+                      >
+                        Xem chi tiết
+                      </button>
+                      <button
+                          onClick={() => handleReview(service._id)}
+                          className="h-10 w-full md:w-36 bg-gray-300 rounded-full hover:bg-blue-500 text-gray-700 hover:text-white"
+                      >
+                        Đánh giá
+                      </button>
+                    </div>
                   </div>
               ))
           ) : (

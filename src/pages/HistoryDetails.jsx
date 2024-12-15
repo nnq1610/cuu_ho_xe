@@ -17,7 +17,7 @@ const HistoryDetails = () => {
       .catch((error) => {
         console.error('There was an error fetching the order details!', error);
       });
-  }, [orderId]); // Refetch if orderId changes
+  }, [orderId]);
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">

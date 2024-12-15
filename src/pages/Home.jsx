@@ -141,7 +141,7 @@ const Home = () => {
             viewport={{ once: false, amount: 0.7 }}
             className="flex items-center h-[50px] w-[250px] bg-white border-2 border-pink-200 justify-center rounded-[30px] hover:bg-red-500"
           >
-            <Link to="/tim-phong-khach-san">Xem thêm dịch vụ cứu hộ </Link>
+            <Link to="/searchService">Xem thêm dịch vụ cứu hộ </Link>
             <FaRegArrowAltCircleRight />
           </motion.button>
         </div>

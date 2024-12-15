@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { CiLocationOn } from 'react-icons/ci';
 import { FaMoneyBillWave, FaCar } from 'react-icons/fa';
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+import Swal from 'sweetalert2';
 
 const ServiceDetail = () => {
     const { serviceId } = useParams();
@@ -14,13 +15,14 @@ const ServiceDetail = () => {
     useEffect(() => {
         const fetchService = async () => {
             try {
+                const userId = localStorage.getItem('userId');
                 const token = localStorage.getItem('token');
-                const role = jwtDecode(token).role
-                const apiEndpoint = `http://localhost:5050/v1/api/rescue-units/incidents/${serviceId}`;
-
+                const role = jwtDecode(token).role;
+                const apiEndpoint = `http://localhost:5050/v1/api/rescue-units/incident-types/${serviceId}`;
                 const response = await axios.get(apiEndpoint, {
                     headers: {
                         'x-access-token': token,
+                        'x-user-id': userId,
                     },
                 });
                 setServiceData(response.data.metadata.incidentDetail);
@@ -32,6 +34,48 @@ const ServiceDetail = () => {
 
         fetchService();
     }, [serviceId]);
+
+    const handleDeleteClick = async () => {
+        try {
+            const userId = localStorage.getItem('userId');
+            const token = localStorage.getItem('token');
+
+            const apiEndpoint = `http://localhost:5050/v1/api/rescue-units/incident-types/${serviceId}`;
+            const response = await axios.delete(apiEndpoint, {
+                headers: {
+                    'x-access-token': token,
+                    'x-user-id': userId,
+                },
+            });
+
+            if (response.status === 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Xoá thành công!',
+                    text: response.data.message || 'Xoá dịch vụ thành công',
+                    timer: 3000,
+                    timerProgressBar: true,
+                    willClose: () => {
+                        navigate('/allServices', {
+                            state: {
+                                notify: {
+                                    type: 'success',
+                                    message: 'Xoá thành công!',
+                                },
+                            },
+                        });
+                    },
+                });
+                // alert(response.data.message || 'Xóa dịch vụ thành công!');
+            } else {
+                console.error('Unexpected response:', response);
+                alert('Không thể xóa dịch vụ. Vui lòng thử lại sau!');
+            }
+        } catch (error) {
+            console.error('Error deleting service:', error);
+            alert('Đã xảy ra lỗi khi xóa dịch vụ.');
+        }
+    };
 
     if (!serviceData) {
         return <div>Đang tải thông tin dịch vụ...</div>;
@@ -114,9 +158,8 @@ const ServiceDetail = () => {
                     </button>
                     <button
                         className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600"
-                        onClick={() => console.log('Delete service')}
-                    >
-                        Xóa dịch vụ
+                        onClick={handleDeleteClick} // Thêm hàm xóa
+                    >Xoá dịch vụ
                     </button>
                 </div>
             )}

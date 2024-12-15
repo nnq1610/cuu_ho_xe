@@ -50,17 +50,14 @@ const Menu = () => {
         <Link to="/searchService">
           <li className="hover:text-[#77dada]">Tìm cứu hộ</li>
         </Link>
-        {/*<Link to="/mã-khuyến-mãi">*/}
-        {/*  <li className="hover:text-[#77dada] hidden sm:block text-center">Khuyến mãi</li>*/}
-        {/*</Link>*/}
         <Link to="/hướng-dẫn-đặt-phòng">
           <li className="hover:text-[#77dada] hidden md:block text-center">Hướng dẫn</li>
         </Link>
-        {isLoggedIn && (
-          <Link to="/lịch-sử-đặt-phòng">
-            <li className="hover:text-[#77dada] hidden md:block text-center">Lịch sử đặt phòng</li>
-          </Link>
-        )}
+        {/*{isLoggedIn && (*/}
+        {/*  <Link to="/lịch-sử-đặt-phòng">*/}
+        {/*    <li className="hover:text-[#77dada] hidden md:block text-center">Lịch sử đặt phòng</li>*/}
+        {/*  </Link>*/}
+        {/*)}*/}
       </ul>
     </div>
   );

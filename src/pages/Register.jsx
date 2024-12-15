@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import axios from "axios";
 
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
+    phone: '',
+    role: 'customer',
+    address: '',
   });
 
   const [errors, setErrors] = useState({
-    firstName: false,
-    lastName: false,
+    name: false,
     email: false,
     password: false,
     confirmPassword: false,
@@ -23,8 +25,7 @@ const Register = () => {
   const validateForm = () => {
     let valid = true;
     const newErrors = {
-      firstName: !formData.firstName,
-      lastName: !formData.lastName,
+      name: !formData.name,
       email: !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email),
       password: !formData.password,
       confirmPassword: formData.password !== formData.confirmPassword,
@@ -43,23 +44,17 @@ const Register = () => {
 
     if (validateForm()) {
       const userData = {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
+        name: formData.name,
         email: formData.email,
         password: formData.password,
+        phone: formData.phone,
+        role: formData.role,
+        address: formData.address,
       };
-
       try {
-        const response = await fetch('http://127.0.0.1:8000/user/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userData),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
+        const response = await axios.post('http://localhost:5050/v1/api/signup', userData);
+        const data = await response.json();
+        if (response.status === 201) {
           Swal.fire({
             icon: 'success',
             title: 'Đăng ký thành công!',
@@ -77,22 +72,16 @@ const Register = () => {
               });
             },
           });
-        } else {
-          const errorData = await response.json();
-          {
-            Swal.fire({
-              icon: 'error',
-              title: 'Đăng ký thất bại!',
-              text: errorData.detail || 'Có lỗi xảy ra.',
-            });
-          }
         }
-      } catch (error) {
+      }
+        catch(error) {
         console.error('Đã có lỗi xảy ra:', error);
-        Swal.fire({
+        const errorMessage = error.response?.data?.message || 'Vui lòng thử lại sau.';
+
+          Swal.fire({
           icon: 'error',
-          title: 'Có lỗi xảy ra!',
-          text: 'Vui lòng thử lại sau.',
+          title: 'Đăng kí thất bại' ,
+          text: errorMessage,
         });
       }
     }
@@ -117,47 +106,32 @@ const Register = () => {
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Tạo tài khoản</h2>
         <form id="registrationForm" onSubmit={handleSubmit} noValidate>
           <div className="mb-4">
-            <label htmlFor="firstName" className="block text-gray-700 font-semibold mb-2">
-              Họ
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Nhập họ"
-              required
-            />
-            {errors.firstName && <p className="text-red-500 text-sm mt-2">Không thể để trống.</p>}
-          </div>
-          <div className="mb-4">
-            <label htmlFor="lastName" className="block text-gray-700 font-semibold mb-2">
+            <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">
               Tên
             </label>
             <input
-              type="text"
-              id="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Nhập tên"
-              required
+                type="text"
+                id="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Nhập họ và tên"
+                required
             />
-            {errors.lastName && <p className="text-red-500 text-sm mt-2">Không thể để trống.</p>}
+            {errors.name && <p className="text-red-500 text-sm mt-2">Không thể để trống.</p>}
           </div>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
               Email
             </label>
             <input
-              type="email"
-              id="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Nhập email"
-              required
+                type="email"
+                id="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Nhập email"
+                required
             />
             {errors.email && <p className="text-red-500 text-sm mt-2">Không thể để trống.</p>}
           </div>
@@ -166,14 +140,14 @@ const Register = () => {
               Mật khẩu
             </label>
             <input
-              autoComplete=""
-              type="password"
-              id="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Nhập mật khẩu"
-              required
+                autoComplete=""
+                type="password"
+                id="password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Nhập mật khẩu"
+                required
             />
             {errors.password && <p className="text-red-500 text-sm mt-2">Vui lòng nhập đúng định dạng.</p>}
           </div>
@@ -182,17 +156,63 @@ const Register = () => {
               Nhập lại mật khẩu
             </label>
             <input
-              type="password"
-              id="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-              placeholder="Nhập lại mật khẩu"
-              required
+                type="password"
+                id="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Nhập lại mật khẩu"
+                required
             />
             {errors.confirmPassword && <p className="text-red-500 text-sm mt-2">Mật khẩu không khớp.</p>}
           </div>
-          <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+
+          <div className="mb-4">
+            <label htmlFor="phone" className="block text-gray-700 font-semibold mb-2">
+              Số điện thoại
+            </label>
+            <input
+                type="text"
+                id="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Nhập số điện thoại"
+                required
+            />
+            {errors.phone && <p className="text-red-500 text-sm mt-2">Số điện thoại không hợp lệ.</p>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="address" className="block text-gray-700 font-semibold mb-2">
+              Địa chỉ
+            </label>
+            <input
+                type="text"
+                id="address"
+                value={formData.address}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="Nhập địa chỉ"
+                required
+            />
+            {errors.address && <p className="text-red-500 text-sm mt-2">Không thể để trống.</p>}
+          </div>
+          <div className="mb-4">
+            <label htmlFor="role" className="block text-gray-700 font-semibold mb-2">
+              Vai trò
+            </label>
+            <select
+                id="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              <option value="customer">Khách hàng</option>
+              <option value="rescue">Xưởng cứu hộ</option>
+            </select>
+          </div>
+          <button type="submit"
+                  className="w-full bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
             Đăng ký
           </button>
         </form>
@@ -208,3 +228,4 @@ const Register = () => {
 };
 
 export default Register;
+

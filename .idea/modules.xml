@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/fe_booking_hotel.iml" filepath="$PROJECT_DIR$/.idea/fe_booking_hotel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/fe-rescue.iml" filepath="$PROJECT_DIR$/.idea/fe-rescue.iml" />
       <module fileurl="file://$PROJECT_DIR$/../rescueconnect/.idea/ket_noi_cuu_ho.iml" filepath="$PROJECT_DIR$/../rescueconnect/.idea/ket_noi_cuu_ho.iml" />
     </modules>
   </component>
