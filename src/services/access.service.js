@@ -31,9 +31,6 @@ class AccessService {
             // Tạo token
             const token = jwt.sign(
                 { userId: newUser._id, role: newUser.role },
-
-
-
                 process.env.JWT_SECRET,
                 { expiresIn: '1d' }
             );
@@ -95,6 +92,7 @@ class AccessService {
 
     };
 
+
     static updateUser = async ({id, updateData}) => {
         if (!id || !updateData) throw new BadRequestError('User ID and update data are required');
 
@@ -102,10 +100,11 @@ class AccessService {
         if (!updatedUser) throw new BadRequestError('Failed to update user');
 
         return getInforData({
-            fields: ['_id', 'name', 'email', 'phone', 'role', 'address'],
+            fields: ['_id', 'name', 'email', 'phone', 'role', 'address', 'image'],
             object: updatedUser
         });
     };
+
     static deleteUser = async (id) => {
         if (!id) throw new BadRequestError('User ID is required');
 
@@ -140,6 +139,21 @@ class AccessService {
         };
     };
 
+    static deleteAccount = async (id) => {
+        if (!id) throw new BadRequestError('User ID is required');
+
+        const deletedUser = await userModel.findByIdAndDelete(id);
+        if (!deletedUser) throw new BadRequestError('User not found or already deleted');
+
+        return {
+            message: 'User deleted successfully',
+            deletedUser: getInforData({
+                fields: ['_id', 'name', 'email', 'phone', 'role', 'address'],
+                object: deletedUser
+            })
+        };
+    };
+
     static changePassword = async({userId, oldPassword, newPassword}) => {
         if(!newPassword || !oldPassword) throw new BadRequestError('All password is required');
 
@@ -158,6 +172,7 @@ class AccessService {
         }
 
     }
+
 
 }
 

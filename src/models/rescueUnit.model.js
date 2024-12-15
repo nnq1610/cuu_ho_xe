@@ -6,16 +6,16 @@ const DOCUMENT_NAME = 'rescueUnit';
 const COLLECTION_NAME = 'rescueUnits';
 
 const rescueUnitSchema = new Schema({
+    name: {
+        type: String,
+        require: true
+    },
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'users',
         required: true
     },
 
-    name: {
-        type: String,
-        required: true
-    },
     incidentTypes: [
         {
             name: {
@@ -27,7 +27,7 @@ const rescueUnitSchema = new Schema({
                 default: ''
             },
             vehicleType: {
-                type: String, // Ví dụ: "Car", "Motorcycle", "Truck"
+                type: String,
                 required: true
             },
             price: {
@@ -37,6 +37,10 @@ const rescueUnitSchema = new Schema({
             address: {
                 type: String,
                 require: true
+            },
+            image: {
+                type: String,
+                default: ''
             }
         }
     ],

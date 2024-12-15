@@ -12,6 +12,8 @@ const checkJWT = async(req, res, next) => {
                 throw new AuthFailureError('Bạn không có quyền truy cập');
             }
             req.userId = user.userId;
+            console.log(user)
+            req.user= user
             next();
         });
         } catch(error) {

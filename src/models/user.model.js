@@ -36,6 +36,7 @@ const userSchema = new Schema({
         ward: { type: String},
         street: { type: String}
     },
+    image: { data: Buffer, contentType: String },
 }, {
     timestamps : true,
     collection : COLLECTION_NAME

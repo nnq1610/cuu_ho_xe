@@ -1,34 +1,34 @@
-const { model, Schema } = require('mongoose')
-const {ObjectId} = require("mongodb");
+'use strict';
+
+const { model, Schema } = require('mongoose');
 
 const DOCUMENT_NAME = 'review';
 const COLLECTION_NAME = 'reviews';
 
 const reviewSchema = new Schema({
-    rescueUnitId: {
+    incidentTypeId: {
         type: Schema.Types.ObjectId,
-        ref: 'RescueUnit',
+        ref: 'rescueUnit.incidentTypes',
         required: true
     },
     userId: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
+        required: true
+    },
+    content: {
+        type: String,
         required: true
     },
     rating: {
         type: Number,
         required: true,
-        min: 1,
+        min: 0,
         max: 5
-    },
-    comment: {
-        type: String,
-        required: true
-    },
+    }
 }, {
-    timestamps : true,
-    collection : COLLECTION_NAME
+    timestamps: true,
+    collection: COLLECTION_NAME
 });
 
-// Export the model
 module.exports = model(DOCUMENT_NAME, reviewSchema);

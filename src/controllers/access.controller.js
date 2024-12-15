@@ -2,57 +2,43 @@
 
 const AccessService = require('../services/access.service.js')
 const {OkSuccess, CreatedSuccess, SuccessResponse} = require('../core/success.response.js');
-
+const mongoose = require('mongoose');
+const {BadRequestError} = require("../core/error.response");
 class AccessController {
-
-    // handlerRefreshToken = async (req, res, next) => {
-
-    //   new SuccessResponse({
-    //     message : "Get new token success !!!",
-    //     metadata : await AccessService.handlerRefreshToken(req.keyStore.refreshToken)
-    //   }).send(res);
-    // }
-
-    // handleRefreshTokenV2 = async (req, res, next) => {
-    //     new SuccessResponse({
-    //         message : "Get new token success !!!",
-    //         metadata : await AccessService.handleRefreshTokenV2({
-    //             refreshToken : req.refreshToken,
-    //             user : req.user,
-    //             keyStore : req.keyStore
-    //         })
-    //     })
-    // }
-
-    logout = async (req, res, next) => {
-
-        new SuccessResponse({
-            message : "Logout success !!!",
-        }).send(res);
-    }
-
-
-    login = async (req, res, next) => {
-
+     login = async (req, res, next) => {
         new SuccessResponse({
             message : 'Login Success !!!',
             metadata : await AccessService.login(req.body)
         }).send(res);
-
     }
 
+    updateUser = async(req, res, next) => {
+        const { id } = req.params;
+        const { name, email, phone, address, role } = req.body;
+        const file = req.file;
+
+        const updateData = { name, email, phone, address, role };
+        if (file && file.url) {
+            updateData.image = file.url;
+        }
+        return new SuccessResponse({
+            message : 'Update success !!!',
+            metadata:   await AccessService.updateUser({ id, updateData })
+        }).send(res)
+    }
 
     signUp = async (req, res, next) => {
-
+        const { name, email, password, phone, role, address } = req.body;
+        const file = req.file; // Lấy file ảnh từ req
         new CreatedSuccess({
             message : 'Registered Success !!!',
-            metadata : await AccessService.signUp(req.body),
+            metadata : await AccessService.signUp({ name, email, password, phone, role, address, file}),
             options : {
                 limit : 100
             }
         }).send(res);
-
     }
+
     logout = async(req, res, next) => {
         new SuccessResponse({
             message: "Log out successfully",
@@ -61,11 +47,22 @@ class AccessController {
     }
 
     getUserById = async(req, res, next) => {
+        const {id} = req.params;
         new SuccessResponse({
             message:'Get user successfully',
-            metadata: await AccessService.getUserById(req.userId)
+            metadata: await AccessService.getUserById(id)
         }).send(res)
     }
+
+    getUser = async(req, res, next) => {
+        const id = req.userId;
+        new SuccessResponse({
+            message:'Get user successfully',
+            metadata: await AccessService.getUserById(id)
+        }).send(res)
+    }
+
+
     getListUsers = async(req, res, next) => {
         new SuccessResponse({
             message: 'Get list successfully',
@@ -79,6 +76,19 @@ class AccessController {
             metadata: await AccessService.changePassword(req.body)
         }).send(res)
     }
+    deleteAccount = async(req, res, next) => {
+
+        const {userId} = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            throw new BadRequestError("Invalid user ID format");
+        }
+        new SuccessResponse({
+            message:'Delete success !!!',
+            metadata: await  AccessService.deleteAccount(req.params)
+        }).send(res)
+    }
+
 }
 
 module.exports = new AccessController();

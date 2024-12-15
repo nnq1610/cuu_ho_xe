@@ -2,99 +2,167 @@ const Review = require('../models/review.model'); // Import model Review
 const RescueUnit = require('../models/rescueUnit.model'); // Import model RescueUnit
 const { BadRequestError, NotFoundError } = require('../core/error.response');
 const {getInforData} = require("../utils");
+const mongoose = require('mongoose')
+
 
 class ReviewService {
-    // 1. Tạo review mới
-    static async createReview({ rescueUnitId, userId, rating, comment }) {
-        // Kiểm tra đầu vào
-        if (!rescueUnitId || !userId || !rating || !comment) {
-            throw new BadRequestError("All fields (rescueUnitId, userId, rating, comment) are required.");
+    // static async createReview({ userId, incidentTypeId, rating, comment }) {
+    //     if (!userId || !incidentTypeId ) {
+    //         throw new BadRequestError('User ID, Incident Type ID are required');
+    //     }
+    //     const rescueUnit = await RescueUnit.findOne({ userId });
+    //     if (!rescueUnit) {
+    //         throw new NotFoundError("Rescue Unit not found for the given User ID");
+    //     }
+    //     const incidentType = rescueUnit.incidentTypes.id(incidentTypeId);
+    //     if (!incidentType) {
+    //         throw new NotFoundError("Incident Type not found for the given ID");
+    //     }
+    //
+    //     Object.assign(incidentType, updateData);
+    //
+    //     await rescueUnit.save();
+    //     return {
+    //         message: "Incident Type updated successfully",
+    //         updatedIncidentType: incidentType,
+    //     }
+    //     }
+    // static async createReview( {rescueUnitId, userId, rating, comment }) {
+    //     const actualRescueUnitId = rescueUnitId.rescueUnitId || rescueUnitId;
+    //     if (!mongoose.Types.ObjectId.isValid(actualRescueUnitId)) {
+    //         throw new BadRequestError("Invalid rescueUnitId.");
+    //     }
+    //
+    //     if (!rescueUnitId || !userId || !rating || !comment) {
+    //         throw new BadRequestError("All fields (rescueUnitId, userId, rating, comment) are required.");
+    //     }
+    //
+    //     const rescueUnit = await RescueUnit.findById(actualRescueUnitId);
+    //     if (!rescueUnit) {
+    //         throw new NotFoundError("Rescue Unit not found.");
+    //     }
+    //     const newReview = await Review.create({
+    //         rescueUnitId,
+    //         userId,
+    //         rating,
+    //         comment
+    //     });
+    //
+    //     return getInforData({
+    //         fields: ['rating', 'comment', 'rescueUnitId', 'userId', '_id'],
+    //         object: newReview
+    //     });
+    //
+    // }
+    //
+    // static async getReviewsByRescueUnit(rescueUnitId, { limit = 10, page = 1 }) {
+    //     if (!rescueUnitId) {
+    //         throw new BadRequestError("rescueUnitId is required.");
+    //     }
+    //
+    //     const reviews = await Review.find({ rescueUnitId })
+    //         .limit(limit)
+    //         .skip((page - 1) * limit)
+    //         .sort({ createdAt: -1 });
+    //
+    //     const totalReviews = await Review.countDocuments({ rescueUnitId });
+    //
+    //     return {
+    //         reviews,
+    //         total: totalReviews,
+    //         page,
+    //         limit
+    //     };
+    // }
+    //
+    // // 4. Xóa review
+    // static async deleteReview({reviewId}) {
+    //     if (!reviewId) {
+    //         throw new BadRequestError("reviewId is required.");
+    //     }
+    //     const deletedReview = await Review.findByIdAndDelete(reviewId);
+    //
+    //     if (!deletedReview) {
+    //         throw new NotFoundError("Review not found.");
+    //     }
+    //
+    //     return deletedReview;
+    // }
+    //
+    // // 5. Cập nhật review
+    // static async updateReview(reviewId, updateData) {
+    //     if (!reviewId || !updateData) {
+    //         throw new BadRequestError("reviewId and update data are required.");
+    //     }
+    //     const updatedReview = await Review.findByIdAndUpdate(reviewId, updateData, { new: true });
+    //     if (!updatedReview) {
+    //         throw new NotFoundError("Review not found.");
+    //     }
+    //
+    //     return updatedReview;
+    // }
+    //
+    // static async getAverageRating(rescueUnitId) {
+    //     if (!rescueUnitId) {
+    //         throw new BadRequestError("rescueUnitId is required.");
+    //     }
+    //
+    //     const result = await Review.aggregate([
+    //         { $match: { rescueUnitId } },
+    //         { $group: { _id: "$rescueUnitId", averageRating: { $avg: "$rating" } } }
+    //     ]);
+    //
+    //     if (result.length === 0) {
+    //         throw new NotFoundError("No reviews found for this Rescue Unit.");
+    //     }
+    //
+    //     return result[0].averageRating;
+    // }
+
+    static async createReview({incidentTypeId, userId, content, rating}) {
+        const rescue = await  RescueUnit.findOne({
+            'incidentTypes._id': incidentTypeId,
+        })
+
+        if (!rescue){
+            throw new NotFoundError('không có loại dịch vụ này');
         }
-        // Kiểm tra xem RescueUnit có tồn tại không
-        const rescueUnit = await RescueUnit.findById(rescueUnitId);
-        if (!rescueUnit) {
-            throw new NotFoundError("Rescue Unit not found.");
-        }
+        const newReview = await Review.create({ incidentTypeId, userId, content, rating });
 
-        // Tạo review
-        const newReview = await Review.create({
-            rescueUnitId,
-            userId,
-            rating,
-            comment
-        });
-
-        return getInforData({
-            fields: ['rating', 'comment', 'rescueUnitId', 'userId', '_id'],
-            object: newReview
-        });
-
+        return newReview
     }
 
-    // 2. Lấy danh sách review theo `rescueUnitId`
-    static async getReviewsByRescueUnit(rescueUnitId, { limit = 10, page = 1 }) {
-        if (!rescueUnitId) {
-            throw new BadRequestError("rescueUnitId is required.");
+    static async updateReview({reviewId, content, newRating}) {
+        const updatedReview = await Review.findByIdAndUpdate(
+            reviewId,
+            { content, rating: newRating },
+            { new: true }
+        )
+
+        if(!updatedReview){
+            throw new NotFoundError('Bình luận không tìm thấy')
         }
-
-        const reviews = await Review.find({ rescueUnitId })
-            .limit(limit)
-            .skip((page - 1) * limit)
-            .sort({ createdAt: -1 });
-
-        const totalReviews = await Review.countDocuments({ rescueUnitId });
-
-        return {
-            reviews,
-            total: totalReviews,
-            page,
-            limit
-        };
+        return updatedReview
     }
 
-    // 4. Xóa review
     static async deleteReview({reviewId}) {
-        if (!reviewId) {
-            throw new BadRequestError("reviewId is required.");
+        const review = await Review.findById(reviewId);
+        if (!review) {
+            throw new Error('Review not found');
         }
-        const deletedReview = await Review.findByIdAndDelete(reviewId);
-        if (!deletedReview) {
-            throw new NotFoundError("Review not found.");
-        }
-
-        return deletedReview;
+        await review.deleteOne();
+        return { message: 'Review deleted successfully' };
     }
 
-    // 5. Cập nhật review
-    static async updateReview(reviewId, updateData) {
-        if (!reviewId || !updateData) {
-            throw new BadRequestError("reviewId and update data are required.");
+    static async getAllReviewsById(incidentTypeId){
+        const rescueUnit = await RescueUnit.findOne({ 'incidentTypes._id': incidentTypeId });
+        if (!rescueUnit) {
+            throw new NotFoundError('Khong co dich vu nay');
         }
-        const updatedReview = await Review.findByIdAndUpdate(reviewId, updateData, { new: true });
-        if (!updatedReview) {
-            throw new NotFoundError("Review not found.");
-        }
-
-        return updatedReview;
+        const reviews = await Review.find({ incidentTypeId }).populate('userId', 'name').lean();
+        return reviews;
     }
 
-    // 6. Lấy trung bình rating cho một `rescueUnitId`
-    static async getAverageRating(rescueUnitId) {
-        if (!rescueUnitId) {
-            throw new BadRequestError("rescueUnitId is required.");
-        }
-
-        const result = await Review.aggregate([
-            { $match: { rescueUnitId } },
-            { $group: { _id: "$rescueUnitId", averageRating: { $avg: "$rating" } } }
-        ]);
-
-        if (result.length === 0) {
-            throw new NotFoundError("No reviews found for this Rescue Unit.");
-        }
-
-        return result[0].averageRating;
-    }
 }
 
 module.exports = ReviewService;

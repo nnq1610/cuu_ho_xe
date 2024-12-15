@@ -4,7 +4,7 @@ const express = require('express');
 const morgan = require('morgan');
 const {default : helmet} = require('helmet');
 const compression = require('compression');
-
+const cors = require('cors');
 const app = express();
 const routes = require('./routes');
 
@@ -17,6 +17,13 @@ app.use(express.urlencoded({
     extended : true
 }))
 //init route
+// Cấu hình chính xác CORS
+app.use(cors({
+    origin: 'http://localhost:3000', // URL frontend (React) của bạn
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức HTTP được phép
+    allowedHeaders: ['Content-Type', 'Authorization','x-access-token', 'x-user-id'], // Các headers cho phép
+    credentials: true // Cho phép gửi cookie và xác thực giữa các domain
+}));
 app.use('', require('./routes/index.js'))
 
 app.use((req, res, next) => { // middleware
@@ -24,7 +31,6 @@ app.use((req, res, next) => { // middleware
     error.status = 404;
     next(error);
 })
-
 
 app.use((error, req, res, next) => {
     const statusCode = error.status || 500;
