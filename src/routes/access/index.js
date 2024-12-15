@@ -13,7 +13,7 @@ router.post('/signup', asyncHandler(accessController.signUp));
 router.post('/login', asyncHandler(accessController.login));
 
 // Update User
-router.put('/update/:id', upload,uploadToCloudinary, asyncHandler(accessController.updateUser))
+router.put('/user/update',checkJWT, asyncHandler(accessController.updateUser))
 
 // Logout
 router.post('/logout', asyncHandler(accessController.logout))

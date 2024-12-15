@@ -13,14 +13,14 @@ class AccessController {
     }
 
     updateUser = async(req, res, next) => {
-        const { id } = req.params;
+        const id = req.userId;
         const { name, email, phone, address, role } = req.body;
-        const file = req.file;
+        // const file = req.file;
 
-        const updateData = { name, email, phone, address, role };
-        if (file && file.url) {
-            updateData.image = file.url;
-        }
+        const updateData = { name, email, phone, address };
+        // if (file && file.url) {
+        //     updateData.image = file.url;
+        // }
         return new SuccessResponse({
             message : 'Update success !!!',
             metadata:   await AccessService.updateUser({ id, updateData })

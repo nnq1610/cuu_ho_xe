@@ -31,10 +31,8 @@ const userSchema = new Schema({
         required: true
     },
     address: {
-        province: { type: String },
-        district: { type: String},
-        ward: { type: String},
-        street: { type: String}
+        type: String,
+        require: true
     },
     image: { data: Buffer, contentType: String },
 }, {
