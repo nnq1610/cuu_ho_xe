@@ -3,8 +3,8 @@ import MainLayout from './layouts/MainLayout';
 import About from './pages/About';
 
 import Home from './pages/Home';
-import Instruct from './pages/Instruct';
 import Login from './pages/Login';
+import Profile from "./pages/Profile";
 import Register from './pages/Register';
 import ServicesManagement from "./pages/MangeService";
 import AllService from "./components/room/AllService";
@@ -76,7 +76,7 @@ export const mainRouters = [
     layout: MainLayout,
   },{
     path: '/profile',
-    component: EditService,
+    component: Profile,
     layout: MainLayout,
   },{
     path: '/reviews/:serviceId',

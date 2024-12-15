@@ -50,7 +50,7 @@ const Menu = () => {
         <Link to="/searchService">
           <li className="hover:text-[#77dada]">Tìm cứu hộ</li>
         </Link>
-        <Link to="/hướng-dẫn-đặt-phòng">
+        <Link to="/">
           <li className="hover:text-[#77dada] hidden md:block text-center">Hướng dẫn</li>
         </Link>
         {/*{isLoggedIn && (*/}

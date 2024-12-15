@@ -16,7 +16,7 @@ const Footer = () => {
       className="text-white bg-[#101828] px-[80px] py-10 md:grid sm:grid-cols-2 md:grid-cols-4"
     >
       <div className="text-[16px] md:text-[14px] sm:text-[13px] md1:mt-5">
-        <img src="./img_1.png" alt="" className="w-[150px] h-[100px] bg-white" />
+        <img src="../logo.svg" alt="anh" className="w-[150px] h-[100px] bg-white" />
         <div className="mt-2">Công ty TNHH CỨU HỘ 24/7</div>
         <div className="mt-2">HÀ NỘI</div>
         <div className="mt-2">Mã số doanh nghiệp: 21031</div>

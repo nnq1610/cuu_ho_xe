@@ -188,7 +188,7 @@ const Header = () => {
                     {/*  <Link to="/mã-khuyến-mãi">Khuyến mãi</Link>*/}
                     {/*</div>*/}
                     <div className="text-[14px] font-archivo font-thin mt-5 hover:text-red-400">
-                      <Link to="/hướng-dẫn-đặt-phòng">Hướng dẫn</Link>
+                      <Link to="/">Hướng dẫn</Link>
                     </div>
                     <div className="text-[14px] font-archivo font-thin mt-5 hover:text-red-400">
                       <Link to="/lịch-sử-đặt-phòng">Lịch sử</Link>
