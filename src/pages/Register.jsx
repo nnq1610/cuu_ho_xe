@@ -52,7 +52,7 @@ const Register = () => {
         address: formData.address,
       };
       try {
-        const response = await axios.post('http://localhost:5050/v1/api/signup', userData);
+        const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/signup`, userData);
         const data = await response.json();
         if (response.status === 201) {
           Swal.fire({

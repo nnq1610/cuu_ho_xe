@@ -13,7 +13,7 @@ const AllServices = () => {
         const fetchService = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const apiEndpoint = `http://localhost:5050/v1/api/rescue-units/active`;
+                const apiEndpoint = `${process.env.REACT_APP_BASE_API_URL}/rescue-units/active`;
                 const response = await axios.get(apiEndpoint, {
                     headers: {
                         'x-access-token': token,

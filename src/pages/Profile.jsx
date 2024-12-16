@@ -19,7 +19,7 @@ const Profile = () => {
     const fetchUserInfo = async () => {
         try {
             const uid = getUserId();
-            const response = await axios.get(`http://localhost:5050/v1/api/user/${uid}`, {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/user/${uid}`, {
                 headers: {
                     'x-access-token': token,
                 },
@@ -34,7 +34,7 @@ const Profile = () => {
 
     const handleSaveInfo = async () => {
         try {
-            const response = await axios.put('http://localhost:5050/v1/api/user/update', editInfo, {
+            const response = await axios.put(`${process.env.REACT_APP_BASE_API_URL}/update`, editInfo, {
                 headers: {
                     'x-access-token': token,
 

@@ -21,7 +21,7 @@ const Review = () => {
   const fetchUserInfo = async () => {
     try {
       const uid = getUserId();
-      const response = await axios.get(`http://localhost:5050/v1/api/user/${uid}`, {
+      const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/user/${uid}`, {
         headers: {
           'x-access-token': token,
         },
@@ -40,7 +40,7 @@ const Review = () => {
 
     setIsLoading(true);
     try {
-      const apiUrl = `http://localhost:5050/v1/api/rescue-units/reviews/${serviceId}`;
+      const apiUrl = `${process.env.REACT_APP_BASE_API_URL}/rescue-units/reviews/${serviceId}`;
       const response = await axios.get(apiUrl, {
         headers: {
           'x-access-token': token,
@@ -91,7 +91,7 @@ const Review = () => {
       };
 
       await axios.post(
-          `http://localhost:5050/v1/api/rescue-units/reviews/${serviceId}`,
+          `${process.env.REACT_APP_BASE_API_URL}/rescue-units/reviews/${serviceId}`,
           payload,
           {
             headers: {

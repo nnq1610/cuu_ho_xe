@@ -38,7 +38,7 @@ const EditService = () => {
 
             const token = localStorage.getItem('token');
             const response = await axios.put(
-                `http://localhost:5050/v1/api/rescue-units/incident-types/${serviceId}`,
+                `${process.env.REACT_APP_BASE_API_URL}/rescue-units/incident-types/${serviceId}`,
                 payload,
                 {
                     headers: {

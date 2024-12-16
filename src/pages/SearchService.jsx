@@ -19,7 +19,7 @@ const SearchService = () => {
     const fetchServices = async () => {
       try {
         const token = localStorage.getItem('token');
-        const apiUrl = 'http://localhost:5050/v1/api/rescue-units/search';
+        const apiUrl = `${process.env.REACT_APP_BASE_API_URL}/rescue-units/search`;
 
         const response = await axios.get(apiUrl, {
           params: {

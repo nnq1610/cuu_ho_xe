@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -37,7 +38,7 @@ const Login = () => {
     if (validateForm()) {
       try {
         const response = await axios.post(
-            'http://localhost:5050/v1/api/login',
+            `${process.env.REACT_APP_BASE_API_URL}/login`,
             {
               email: formData.email,
               password: formData.password,

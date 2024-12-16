@@ -51,7 +51,7 @@ const RescueForm = ({ serviceId }) => {
         formDataToSend.append('description', formData.description);
         formDataToSend.append('image', formData.image);
 
-        const apiEndpoint = `http://localhost:5050/v1/api/rescue-units/incident-types`
+        const apiEndpoint = `${process.env.REACT_APP_BASE_API_URL}/rescue-units/incident-types`
         const token = localStorage.getItem('token');
         axios
             .post(apiEndpoint, {
