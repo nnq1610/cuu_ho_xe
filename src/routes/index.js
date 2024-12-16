@@ -11,4 +11,8 @@ router.use('/v1/api', checkJWT, require('./review'));
 
 router.use('/v1/api',require('./rescue'));
 
+router.get('/', (req, res) => {
+    res.send('Welcome to the lib');
+});
+
 module.exports = router;

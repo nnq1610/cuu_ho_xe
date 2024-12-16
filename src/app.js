@@ -6,7 +6,11 @@ const {default : helmet} = require('helmet');
 const compression = require('compression');
 const cors = require('cors');
 const app = express();
+const path = require('path');
+
 const routes = require('./routes');
+app.use(express.static(path.join(__dirname, '../build')));
+
 
 
 app.use(morgan('dev'));
