@@ -19,7 +19,7 @@ app.use(express.urlencoded({
 //init route
 // Cấu hình chính xác CORS
 app.use(cors({
-    origin: 'https://cuu-ho-xe-1.onrender.com', // URL frontend (React) của bạn
+    origin: 'http://localhost:3000', // URL frontend (React) của bạn
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức HTTP được phép
     allowedHeaders: ['Content-Type', 'Authorization','x-access-token', 'x-user-id'], // Các headers cho phép
     credentials: true // Cho phép gửi cookie và xác thực giữa các domain

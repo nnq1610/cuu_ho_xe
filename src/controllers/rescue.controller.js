@@ -11,7 +11,6 @@ class RescueController {
     }
 
     getRescueUnitByUserId = async (req, res, next) => {
-
         const { userId } = req.params;
         new SuccessResponse({
             message : "Get success",
@@ -67,7 +66,7 @@ class RescueController {
     }
 
     removeIncidentType = async(req, res, next) => {
-        const { incidentTypeId } = req.params; // Lấy tham số từ URL params
+        const { incidentTypeId } = req.params;
         const userId = req.headers['x-user-id']
         new SuccessResponse({
             message: "Remove success !!!",
@@ -84,8 +83,7 @@ class RescueController {
     }
     searchRescueUnits = async(req, res, next) => {
         new SuccessResponse({
-            message: "Search success !!!",
-            metadata: await RescueService.searchRescueUnits(req.query)
+             metadata: await RescueService.searchRescueUnits(req.body)
         }).send(res)
     }
 
