@@ -9,10 +9,6 @@ const app = express();
 const path = require('path');
 
 const routes = require('./routes');
-app.use(express.static(path.join(__dirname, '../build')));
-
-
-
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(compression());
@@ -29,6 +25,7 @@ app.use(cors({
     credentials: true // Cho phép gửi cookie và xác thực giữa các domain
 }));
 app.use('', require('./routes/index.js'))
+app.use(express.static(path.join(__dirname, '../build')));
 
 app.use((req, res, next) => { // middleware
     const error = new Error(' ko thay');
