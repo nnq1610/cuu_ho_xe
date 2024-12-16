@@ -7,32 +7,17 @@ import Login from './pages/Login';
 import Profile from "./pages/Profile";
 import Register from './pages/Register';
 import ServicesManagement from "./pages/MangeService";
-import AllService from "./components/room/AllService";
+import AllService from "./components/service/AllService";
 import serviceDetail from "./pages/ServiceDetail";
 import EditService from "./pages/EditService";
 import SearchService from "./pages/SearchService";
-import Review from "./components/room/Review";
+import Review from "./components/service/Review";
 export const mainRouters = [
   {
     path: '/services',
     component: ServicesManagement,
     layout: MainLayout,
   },
-  // {
-  //   path: '/mã-khuyến-mãi',
-  //   component: Voucher,
-  //   layout: MainLayout,
-  // },
-  // {
-  //   path: '/thanh-toán',
-  //   component: Checkout,
-  //   layout: MainLayout,
-  // },
-  // {
-  //   path: '/gio-hang',
-  //   component: Cart,
-  //   layout: MainLayout,
-  // },
   {
     path: '/',
     component: Home,
@@ -43,11 +28,6 @@ export const mainRouters = [
     component: About,
     layout: MainLayout,
   },
-  // {
-  //   path: '/gioi-thieu-chi-nhanh/:hotelId',
-  //   component: AboutBranch,
-  //   layout: MainLayout,
-  // },
   {
     path: '/serviceDetail/:serviceId',
     component: serviceDetail,

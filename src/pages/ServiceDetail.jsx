@@ -91,7 +91,7 @@ const ServiceDetail = () => {
             <img src="/images/heading-border.webp" alt="" className="mt-10 mx-auto" />
 
             {/* Tên dịch vụ */}
-            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-center text-blue-600 mt-5">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-center text-red-600 mt-5">
                 {serviceData.name || 'Chưa có tên dịch vụ'}
             </h1>
 

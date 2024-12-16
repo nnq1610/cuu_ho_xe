@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
-import RoomNotFound from '../components/allRoom/RoomNotFound';
+import RoomNotFound from '../components/allService/RoomNotFound';
 import { getUserId } from '../utils/jwt';
 
 const Cart = () => {

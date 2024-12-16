@@ -13,17 +13,17 @@ const AllServices = () => {
         const fetchService = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const apiEndpoint = `${process.env.REACT_APP_BASE_API_URL}/rescue-units/active`;
+                const userId = localStorage.getItem('userId');
+                const apiEndpoint = `${process.env.REACT_APP_BASE_API_URL}/rescue-unit/${userId}`;
                 const response = await axios.get(apiEndpoint, {
                     headers: {
                         'x-access-token': token,
+                        'x-user-id': userId,
                     },
                 });
-
                 const { metadata } = response.data;
-                const allIncidentTypes = metadata.reduce((acc, unit) => {
-                    return acc.concat(unit.incidentTypes || []);
-                }, []);
+                const allIncidentTypes = metadata.incidentTypes || [];
+
 
                 setServices(allIncidentTypes);
             } catch (error) {

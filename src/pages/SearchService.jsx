@@ -1,54 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../components/loading/loading';
 
 const SearchService = () => {
-  const [isLoading, setIsLoading] = useState(false); // Thêm trạng thái loading cho "Xem chi tiết"
+  const [isLoading, setIsLoading] = useState(false);
   const [sortOption, setSortOption] = useState('Không sắp xếp');
   const [showDropdown, setShowDropdown] = useState(false);
   const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading khi fetch dữ liệu
+  const [loading, setLoading] = useState(true);
   const [searchName, setSearchName] = useState('');
   const [searchPrice, setSearchPrice] = useState('');
   const navigate = useNavigate(); // Sử dụng để điều hướng
+  const location = useLocation();
 
   useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const apiUrl = `${process.env.REACT_APP_BASE_API_URL}/rescue-units/search`;
+    // Lấy dữ liệu từ location.state
+    if (location.state && location.state.services) {
+      setServices(location.state.services);
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
+  }, [location.state]);
 
-        const response = await axios.get(apiUrl, {
-          params: {
-            ...(searchName && { name: searchName }),
-            ...(searchPrice && { price: searchPrice }),
-          },
-          headers: {
-            'x-access-token': token,
-          },
-        });
-        const { metadata } = response.data;
-        if (metadata && metadata.length > 0) {
-          const userId = metadata[0].userId;
-          localStorage.setItem('userId', userId);
-        }
-        const allIncidentTypes = metadata.reduce((acc, unit) => {
-          return acc.concat(unit.incidentTypes || []);
-        }, []);
-
-        setServices(allIncidentTypes);
-      } catch (error) {
-        console.error('There was an error fetching the services!', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServices();
-  }, [searchName, searchPrice]);
 
   const handleSortChange = (option) => {
     setSortOption(option);

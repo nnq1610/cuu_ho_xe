@@ -53,7 +53,6 @@ const Register = () => {
       };
       try {
         const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/signup`, userData);
-        const data = await response.json();
         if (response.status === 201) {
           Swal.fire({
             icon: 'success',

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import {getUserId} from "../utils/jwt";
+import { getUserId } from '../utils/jwt';
 import Swal from 'sweetalert2';
-
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -15,7 +14,9 @@ const Profile = () => {
     useEffect(() => {
         fetchUserInfo();
     }, []);
+
     const token = localStorage.getItem('token');
+
     const fetchUserInfo = async () => {
         try {
             const uid = getUserId();
@@ -31,13 +32,11 @@ const Profile = () => {
         }
     };
 
-
     const handleSaveInfo = async () => {
         try {
             const response = await axios.put(`${process.env.REACT_APP_BASE_API_URL}/user/update`, editInfo, {
                 headers: {
                     'x-access-token': token,
-
                 },
             });
             if (response.status === 200) {
@@ -45,7 +44,7 @@ const Profile = () => {
                 setIsEditing(false);
                 Swal.fire({
                     icon: 'success',
-                    title: 'Thành công!' ,
+                    title: 'Thành công!',
                     text: 'Chỉnh sửa thành công!',
                 });
             }
@@ -75,16 +74,7 @@ const Profile = () => {
 
                 <div>
                     <label className="block text-sm font-medium">Email</label>
-                    {isEditing ? (
-                        <input
-                            type="email"
-                            value={editInfo.email}
-                            onChange={(e) => setEditInfo({ ...editInfo, email: e.target.value })}
-                            className="w-full border p-2 rounded"
-                        />
-                    ) : (
-                        <p className="text-gray-700">{userInfo.email}</p>
-                    )}
+                    <p className="text-gray-700">{userInfo.email}</p>
                 </div>
 
                 <div>

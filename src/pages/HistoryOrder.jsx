@@ -4,7 +4,7 @@ import { FaRegEye } from 'react-icons/fa';
 import { MdPayments } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import RoomNotFound from '../components/allRoom/RoomNotFound';
+import RoomNotFound from '../components/allService/RoomNotFound';
 import { getUserId } from '../utils/jwt';
 
 const HistoryOrder = () => {

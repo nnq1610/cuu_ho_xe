@@ -33,26 +33,26 @@ const BlogPost = () => {
           {/* Các thẻ bài viết */}
           <div className="border-2 rounded-[30px] flex flex-col p-5">
             <img src="./images/img_2.png" alt="Room 1" className="w-full h-auto max-w-[350px] rounded-[25px]" />
-            <div className="mt-5 text-[20px] font-archivo font-semibold text-[#475467]">Điểm danh top 4 phòng nổi bật</div>
-            <div className="mt-5 text-[15px] font-archivo font-thin text-[#475467]">Điểm danh top 4 phòng nổi bật gồm các ....................................</div>
+            <div className="mt-5 text-[20px] font-archivo font-semibold text-[#475467]">Điểm danh top 4 dịch vụ nổi bật</div>
+            <div className="mt-5 text-[15px] font-archivo font-thin text-[#475467]">Dịch vụ sửa xe máy tận nơi ....................................</div>
             <div className="mt-5 text-[15px] font-archivo font-thin text-[#475467]">13/9/2024</div>
           </div>
           <div className="border-2 rounded-[30px] flex flex-col p-5">
             <img src="./images/img_3.png" alt="Room 1" className="w-full h-auto max-w-[350px] rounded-[25px]" />
-            <div className="mt-5 text-[20px] font-archivo font-semibold text-[#475467]">Điểm danh top 4 phòng nổi bật</div>
-            <div className="mt-5 text-[15px] font-archivo font-thin text-[#475467]">Điểm danh top 4 phòng nổi bật gồm các ....................................</div>
+            <div className="mt-5 text-[20px] font-archivo font-semibold text-[#475467]">Điểm danh top 4 dịch vụ nổi bật</div>
+            <div className="mt-5 text-[15px] font-archivo font-thin text-[#475467]">Điểm danh top 4 dịch vụ sửa ô tô tận nơi ....................................</div>
             <div className="mt-5 text-[15px] font-archivo font-thin text-[#475467]">13/9/2024</div>
           </div>
           <div className="border-2 rounded-[30px] flex flex-col p-5">
             <img src="./images/img_4.png" alt="Room 1" className="w-full h-auto max-w-[350px] rounded-[25px]" />
-            <div className="mt-5 text-[20px] font-archivo font-semibold text-[#475467]">Điểm danh top 4 phòng nổi bật</div>
-            <div className="mt-5 text-[15px] font-archivo font-thin text-[#475467]">Điểm danh top 4 phòng nổi bật gồm các ....................................</div>
+            <div className="mt-5 text-[20px] font-archivo font-semibold text-[#475467]">Điểm danh top 4 dịch vụ nổi bật</div>
+            <div className="mt-5 text-[15px] font-archivo font-thin text-[#475467]">Điểm danh top 4 dịch vụ sửa ô tô tận nơi ....................................</div>
             <div className="mt-5 text-[15px] font-archivo font-thin text-[#475467]">13/9/2024</div>
           </div>
           <div className="border-2 rounded-[30px] flex flex-col p-5">
             <img src="./images/img_5.png" alt="Room 1" className="w-full h-auto max-w-[350px] rounded-[25px]" />
-            <div className="mt-5 text-[20px] font-archivo font-semibold text-[#475467]">Điểm danh top 4 phòng nổi bật</div>
-            <div className="mt-5 text-[15px] font-archivo font-thin text-[#475467]">Điểm danh top 4 phòng nổi bật gồm các ....................................</div>
+            <div className="mt-5 text-[20px] font-archivo font-semibold text-[#475467]">Điểm danh top 4 dịch vụ nổi bật</div>
+            <div className="mt-5 text-[15px] font-archivo font-thin text-[#475467]">Điểm danh top 4 dịch vụ sửa ô tô tận nơi ....................................</div>
             <div className="mt-5 text-[15px] font-archivo font-thin text-[#475467]">13/9/2024</div>
           </div>
         </div>

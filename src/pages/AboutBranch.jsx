@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { IoArrowRedo, IoLocationOutline } from 'react-icons/io5';
 import { PiCrownThin } from 'react-icons/pi';
 import { useParams } from 'react-router-dom';
-import AllRooms from '../components/room/AllRooms';
-import Review from '../components/room/Review';
+import AllRooms from '../components/service/AllRooms';
+import Review from '../components/service/Review';
 
 const AboutBranch = () => {
   const { hotelId } = useParams();

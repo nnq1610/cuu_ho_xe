@@ -53,6 +53,7 @@ const Login = () => {
 
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('userId', user._id);
 
         await Swal.fire({
           icon: 'success',
