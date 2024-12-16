@@ -41,7 +41,6 @@ const RescueForm = ({ serviceId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Hiển thị loading ngay khi bắt đầu gửi API
         setIsLoading(true);
         const formDataToSend = new FormData();
         formDataToSend.append('name', formData.name);
@@ -54,17 +53,17 @@ const RescueForm = ({ serviceId }) => {
         const apiEndpoint = `${process.env.REACT_APP_BASE_API_URL}/rescue-units/incident-types`
         const token = localStorage.getItem('token');
         axios
-            .post(apiEndpoint, {
+            .post(apiEndpoint, formDataToSend, {
                 headers: {
+                    'x-access-token': token,
                     'Content-Type': 'multipart/form-data',
-                    'x-access-token': token
                 },
             })
             .then((response) => {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Đăng ký thành công!',
-                    text: 'Chúc mừng bạn đã đăng ký tài khoản thành công.',
+                    title: 'Tạo thành công!',
+                    text: 'Chúc mừng bạn đã tạo dịch vụ thành công.',
                     timer: 3000,
                     timerProgressBar: true,
             })})

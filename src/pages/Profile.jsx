@@ -34,7 +34,7 @@ const Profile = () => {
 
     const handleSaveInfo = async () => {
         try {
-            const response = await axios.put(`${process.env.REACT_APP_BASE_API_URL}/update`, editInfo, {
+            const response = await axios.put(`${process.env.REACT_APP_BASE_API_URL}/user/update`, editInfo, {
                 headers: {
                     'x-access-token': token,
 
