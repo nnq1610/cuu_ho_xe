@@ -30,7 +30,7 @@ router.put(
 router.delete('/rescue-units/incident-types/:incidentTypeId',  checkJWT,checkRole, asyncHandler(rescueController.removeIncidentType))
 
 //search rescue theo bộ lọc
-router.get('/rescue-units/search', asyncHandler(rescueController.searchRescueUnits))
+router.post('/rescue-units/search', asyncHandler(rescueController.searchRescueUnits))
 
 //get by id
 router.get('/rescue-units/incident-types/:incidentId', asyncHandler(rescueController.getDetailIncidentById))

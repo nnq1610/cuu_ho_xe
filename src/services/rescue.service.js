@@ -7,8 +7,8 @@ const {uploadImage} = require("../configs/cloudinary.config");
 
 class RescueUnitService {
 
-    static async createRescueUnit({ userId, rating, activeStatus }) {
-        if(!userId) {
+    static async createRescueUnit({userId, rating, activeStatus}) {
+        if (!userId) {
             throw new BadRequestError("User Id is required");
         }
         const rescueUnit = await RescueUnit.create({
@@ -21,21 +21,21 @@ class RescueUnitService {
     }
 
     static async getRescueUnitByUserId(userId) {
-            if (!userId) {
-                throw new Error("userId is required.");
-            }
-            const rescueUnit = await RescueUnit.findOne({ userId });
+        if (!userId) {
+            throw new Error("userId is required.");
+        }
+        const rescueUnit = await RescueUnit.findOne({userId});
 
-            if (!rescueUnit) {
-                throw new NotFoundError("Rescue Unit not found.");
-            }
+        if (!rescueUnit) {
+            await  this.createRescueUnit({userId})
+        }
 
-            return rescueUnit;
+        return rescueUnit;
     }
 
     static async getIncidentDetail(userId, incidentId) {
         // Tìm rescue unit dựa trên userId
-        const rescueUnit = await RescueUnit.findOne({ userId }).lean();
+        const rescueUnit = await RescueUnit.findOne({userId}).lean();
         console.log("Rescue Unit:", rescueUnit);
 
         if (!rescueUnit) {
@@ -69,8 +69,8 @@ class RescueUnitService {
 
         const updatedUnit = await RescueUnit.findOneAndUpdate(
             {userId},
-            { $pull: { incidentTypes: { _id: incidentTypeId } } },
-            { new: true }
+            {$pull: {incidentTypes: {_id: incidentTypeId}}},
+            {new: true}
         );
 
         if (!updatedUnit) throw new NotFoundError('RescueUnit or IncidentType not found');
@@ -90,7 +90,7 @@ class RescueUnitService {
         }
         const rescueUnit = await RescueUnit.findOne({userId});
         if (!rescueUnit) {
-         const newRC = await this.createRescueUnit({userId})
+            const newRC = await this.createRescueUnit({userId})
             newRC.incidentTypes.push(incidentTypeData);
             const updatedRescueUnit = await rescueUnit.save();
             return updatedRescueUnit;
@@ -101,12 +101,12 @@ class RescueUnitService {
         return updatedRescueUnit;
     }
 
-    static async updateIncidentType({ userId, incidentTypeId, updateData }) {
+    static async updateIncidentType({userId, incidentTypeId, updateData}) {
         if (!userId || !incidentTypeId || !updateData) {
             throw new BadRequestError('User ID, Incident Type ID, and update data are required');
         }
 
-        const rescueUnit = await RescueUnit.findOne({ userId });
+        const rescueUnit = await RescueUnit.findOne({userId});
         if (!rescueUnit) {
             throw new NotFoundError("Rescue Unit not found for the given User ID");
         }
@@ -123,60 +123,69 @@ class RescueUnitService {
             message: "Incident Type updated successfully",
             updatedIncidentType: incidentType,
         };
-}
+    }
 
     static async updateRescueUnit(unitId, updateData) {
-        const updatedUnit = await RescueUnit.findByIdAndUpdate(unitId, updateData, { new: true });
+        const updatedUnit = await RescueUnit.findByIdAndUpdate(unitId, updateData, {new: true});
         if (!updatedUnit) throw new NotFoundError('RescueUnit not found');
         return updatedUnit;
     }
 
+
     static async searchRescueUnits(filters) {
-        const query = {};
-        if (filters.name) {
-            query.name = { $regex: filters.name, $options: 'i' };
-        }
         try {
-            // Lấy dữ liệu Rescue Units dựa trên query
+            const query = {};
+
+            // Tìm kiếm theo name (không phân biệt hoa thường, tìm kiếm bao gồm)
+            if (filters.name) {
+                query.name = {$regex: filters.name, $options: 'i'};
+            }
+
+            // Lấy danh sách rescue units phù hợp với query
             const rescueUnits = await RescueUnit.find(query);
 
-            const filteredUnits = rescueUnits.map(unit => {
+            // Áp dụng bộ lọc trên từng unit
+            const filteredUnits = rescueUnits.map((unit) => {
                 const incidentTypes = unit.incidentTypes || [];
 
-                const filteredIncidentTypes = incidentTypes.filter(type => {
+                // Lọc incidentTypes theo vehicleType và address nếu có
+                const filteredIncidentTypes = incidentTypes.filter((type) => {
                     let isValid = true;
 
                     // Lọc theo vehicleType
                     if (filters.vehicleType) {
-                        isValid = isValid && type.vehicleType.toLowerCase() === filters.vehicleType.toLowerCase();
+                        isValid = isValid &&
+                            type.vehicleType?.toLowerCase() === filters.vehicleType.toLowerCase();
                     }
 
-                    // Lọc theo address (hỗ trợ tìm kiếm một phần)
+                    // Lọc theo address (tìm kiếm một phần)
                     if (filters.address) {
                         const regex = new RegExp(filters.address, 'i'); // Không phân biệt hoa thường
-                        isValid = isValid && regex.test(type.address); // Sử dụng regex.test
+                        isValid = isValid && regex.test(type.address || '');
                     }
 
                     return isValid;
                 });
 
-                // Trả về đối tượng với incidentTypes đã được lọc
-                console.log(unit._doc)
                 return {
-                    ...unit._doc,
+                    // ...unit._doc,
                     incidentTypes: filteredIncidentTypes
                 };
             });
 
-            const finalResult = filteredUnits.filter(unit => unit.incidentTypes && unit.incidentTypes.length > 0);
-            console.log('result: ', finalResult);
-            return finalResult;
+            const finalResult = filteredUnits.filter((unit) =>
+                unit.incidentTypes && unit.incidentTypes.length > 0
+            );
+            console.log('final result: ',finalResult)
+            return {
+                finalResult
+            };
         } catch (error) {
             console.error('Error searching rescue units:', error);
-            throw error;
+            throw new Error('Lỗi trong quá trình tìm kiếm các rescue units.');
         }
     }
-
 }
 
-module.exports = RescueUnitService;
+
+    module.exports = RescueUnitService;
