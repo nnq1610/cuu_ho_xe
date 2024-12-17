@@ -5,9 +5,11 @@ import { CiLocationOn } from 'react-icons/ci';
 import { FaMoneyBillWave, FaCar } from 'react-icons/fa';
 import { jwtDecode } from "jwt-decode";
 import Swal from 'sweetalert2';
+import Loading from '../components/loading/loading';
 
 const ServiceDetail = () => {
     const { serviceId } = useParams();
+    const [isLoading, setIsLoading] = useState(false);
     const [serviceData, setServiceData] = useState(null);
     const [uid, setuid] = useState(null);
     const [userRole, setUserRole] = useState(''); // Add user role state
@@ -81,7 +83,7 @@ const ServiceDetail = () => {
     };
 
     if (!serviceData) {
-        return <div>Đang tải thông tin dịch vụ...</div>;
+        return <div><Loading message={'Đang xử lý...'}/>></div>;
     }
 
     const handleEditClick = () => {

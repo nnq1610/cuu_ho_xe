@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { FaMapMarkerAlt, FaMoneyBillWave, FaCar, FaClipboardList } from 'react-icons/fa';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../components/loading/loading';
@@ -12,12 +13,10 @@ const SearchService = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchName, setSearchName] = useState('');
-  const [searchPrice, setSearchPrice] = useState('');
-  const navigate = useNavigate(); // Sử dụng để điều hướng
+  const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // Lấy dữ liệu từ location.state
     if (location.state && location.state.services) {
       setServices(location.state.services);
       setLoading(false);
@@ -25,7 +24,6 @@ const SearchService = () => {
       setLoading(false);
     }
   }, [location.state]);
-
 
   const handleSortChange = (option) => {
     setSortOption(option);
@@ -43,7 +41,7 @@ const SearchService = () => {
   };
 
   const handleViewDetails = (id) => {
-    setIsLoading(true); // Hiển thị hiệu ứng loading
+    setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
       navigate(`/serviceDetail/${id}`);
@@ -51,15 +49,15 @@ const SearchService = () => {
   };
 
   const handleReview = (serviceId) => {
-    setIsLoading(true); // Hiển thị hiệu ứng loading
+    setIsLoading(true);
     setTimeout(() => {
       navigate(`/reviews/${serviceId}`, { state: { serviceId } });
-    },1000)
+    }, 1000);
   };
 
   return (
       <div className="px-[30px] md:px-[85px] mt-5">
-        {isLoading && <Loading />} {/* Hiển thị hiệu ứng loading */}
+        {isLoading && <Loading />}
         <div className="pt-5 border-2 px-3 py-5 rounded-[30px] shadow-xl">
           <h2 className="text-[24px] md:text-[30px] text-center font-bold">Tìm kiếm dịch vụ cứu hộ</h2>
           <div className="mt-5 flex justify-center items-center relative">
@@ -90,13 +88,22 @@ const SearchService = () => {
             {showDropdown && (
                 <div className="absolute bg-white border rounded-xl shadow-lg w-full mt-2">
                   <ul className="py-2">
-                    <li onClick={() => handleSortChange('Không sắp xếp')} className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                    <li
+                        onClick={() => handleSortChange('Không sắp xếp')}
+                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                    >
                       Không sắp xếp
                     </li>
-                    <li onClick={() => handleSortChange('Giá cao xuống thấp')} className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                    <li
+                        onClick={() => handleSortChange('Giá cao xuống thấp')}
+                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                    >
                       Giá cao xuống thấp
                     </li>
-                    <li onClick={() => handleSortChange('Giá thấp đến cao')} className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                    <li
+                        onClick={() => handleSortChange('Giá thấp đến cao')}
+                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                    >
                       Giá thấp đến cao
                     </li>
                   </ul>
@@ -117,15 +124,19 @@ const SearchService = () => {
                         className="w-full h-[200px] rounded-2xl border-2"
                     />
                     <div className="flex items-center mt-4">
+                      <FaClipboardList className="text-blue-500" />
                       <h2 className="text-sm md:text-base ml-2 font-semibold">{service.name || 'N/A'}</h2>
                     </div>
                     <div className="flex items-center mt-2">
+                      <FaMapMarkerAlt className="text-red-500" />
                       <h2 className="text-sm md:text-base ml-2">{service.address || 'N/A'}</h2>
                     </div>
                     <div className="flex items-center mt-2">
+                      <FaMoneyBillWave className="text-green-500" />
                       <h2 className="text-sm md:text-base ml-2">{service.price || '0'} VNĐ</h2>
                     </div>
                     <div className="flex items-center mt-2">
+                      <FaCar className="text-gray-500" />
                       <h2 className="text-sm md:text-base ml-2">{service.vehicleType || 'N/A'}</h2>
                     </div>
                     <div className="flex justify-between gap-2 mt-4">
