@@ -43,7 +43,7 @@ const ServiceDetail = () => {
             const userId = localStorage.getItem('userId');
             const token = localStorage.getItem('token');
 
-            const apiEndpoint = `${process.env.REACT_APP_BASE_API_URL}/incident-types/${serviceId}`;
+            const apiEndpoint = `${process.env.REACT_APP_BASE_API_URL}/rescue-units/incident-types/${serviceId}`;
             const response = await axios.delete(apiEndpoint, {
                 headers: {
                     'x-access-token': token,
