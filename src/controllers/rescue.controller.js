@@ -26,7 +26,6 @@ class RescueController {
 
     }
 
-// `http://localhost:5050/v1/api/rescue-units/${userId}/incidents/${incidentId}`
 
     getDetailIncidentById = async(req, res, next) => {
         const userId = req.headers['x-user-id']
