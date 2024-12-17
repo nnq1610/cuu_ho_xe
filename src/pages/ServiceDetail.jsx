@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 const ServiceDetail = () => {
     const { serviceId } = useParams();
     const [serviceData, setServiceData] = useState(null);
+    const [uid, setuid] = useState(null);
     const [userRole, setUserRole] = useState(''); // Add user role state
     const navigate = useNavigate(); // Hook for navigation
 
@@ -25,7 +26,9 @@ const ServiceDetail = () => {
                         'x-user-id': userId,
                     },
                 });
+                const data = {}
                 setServiceData(response.data.metadata.incidentDetail);
+                setuid(response.data.metadata.userId);
                 setUserRole(role); // Set user role from response
             } catch (error) {
                 console.error('Error fetching service data:', error);
@@ -148,7 +151,7 @@ const ServiceDetail = () => {
             </div>
 
             {/* Nút chỉnh sửa và xóa */}
-            {userRole === 'rescue' && (
+            {userRole === 'rescue' && uid === localStorage.getItem('userId') && (
                 <div className="mt-10 flex justify-center gap-4">
                     <button
                         className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600"
