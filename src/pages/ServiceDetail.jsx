@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { CiLocationOn } from 'react-icons/ci';
-import { FaMoneyBillWave, FaCar } from 'react-icons/fa';
+import { FaMoneyBillWave, FaCar, FaPhone } from 'react-icons/fa'; // Import biểu tượng điện thoại
 import { jwtDecode } from "jwt-decode";
 import Swal from 'sweetalert2';
 import Loading from '../components/loading/loading';
@@ -11,9 +11,11 @@ const ServiceDetail = () => {
     const { serviceId } = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const [serviceData, setServiceData] = useState(null);
+    const [phoneNumber, setPhoneNumber] = useState(null);
+
     const [uid, setuid] = useState(null);
-    const [userRole, setUserRole] = useState(''); // Add user role state
-    const navigate = useNavigate(); // Hook for navigation
+    const [userRole, setUserRole] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchService = async () => {
@@ -28,10 +30,10 @@ const ServiceDetail = () => {
                         'x-user-id': userId,
                     },
                 });
-                const data = {}
                 setServiceData(response.data.metadata.incidentDetail);
-                setuid(response.data.metadata.userId);
-                setUserRole(role); // Set user role from response
+                setuid(response.data.metadata.uid);
+                setPhoneNumber(response.data.metadata.phone);
+                setUserRole(role);
             } catch (error) {
                 console.error('Error fetching service data:', error);
             }
@@ -44,7 +46,6 @@ const ServiceDetail = () => {
         try {
             const userId = localStorage.getItem('userId');
             const token = localStorage.getItem('token');
-
             const apiEndpoint = `${process.env.REACT_APP_BASE_API_URL}/rescue-units/incident-types/${serviceId}`;
             const response = await axios.delete(apiEndpoint, {
                 headers: {
@@ -71,7 +72,6 @@ const ServiceDetail = () => {
                         });
                     },
                 });
-                // alert(response.data.message || 'Xóa dịch vụ thành công!');
             } else {
                 console.error('Unexpected response:', response);
                 alert('Không thể xóa dịch vụ. Vui lòng thử lại sau!');
@@ -83,7 +83,7 @@ const ServiceDetail = () => {
     };
 
     if (!serviceData) {
-        return <div><Loading message={'Đang xử lý...'}/>></div>;
+        return <div><Loading message={'Đang xử lý...'}/></div>;
     }
 
     const handleEditClick = () => {
@@ -123,7 +123,7 @@ const ServiceDetail = () => {
             </div>
 
             {/* Chi tiết dịch vụ */}
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center">
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
                 {/* Loại phương tiện */}
                 <div className="flex flex-col items-center">
                     <FaCar className="text-3xl text-gray-700 mb-2" />
@@ -150,6 +150,15 @@ const ServiceDetail = () => {
                     </p>
                     <span className="text-sm text-gray-500">Địa điểm cung cấp dịch vụ</span>
                 </div>
+
+                {/* Số điện thoại */}
+                <div className="flex flex-col items-center">
+                    <FaPhone className="text-3xl text-gray-700 mb-2" />
+                    <p className="text-base md:text-lg font-semibold text-gray-800">
+                        {phoneNumber || 'Chưa có số điện thoại'}
+                    </p>
+                    <span className="text-sm text-gray-500">Số điện thoại liên hệ</span>
+                </div>
             </div>
 
             {/* Nút chỉnh sửa và xóa */}
@@ -157,14 +166,15 @@ const ServiceDetail = () => {
                 <div className="mt-10 flex justify-center gap-4">
                     <button
                         className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600"
-                        onClick={handleEditClick} // Khi click vào sẽ chuyển trang chỉnh sửa
+                        onClick={handleEditClick}
                     >
                         Chỉnh sửa dịch vụ
                     </button>
                     <button
                         className="px-4 py-2 bg-red-500 text-white font-semibold rounded-lg shadow hover:bg-red-600"
-                        onClick={handleDeleteClick} // Thêm hàm xóa
-                    >Xoá dịch vụ
+                        onClick={handleDeleteClick}
+                    >
+                        Xoá dịch vụ
                     </button>
                 </div>
             )}
