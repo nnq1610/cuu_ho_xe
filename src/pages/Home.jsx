@@ -81,10 +81,8 @@ const Home = () => {
 
   return (
     <div>
-      {/* Bạn lựa chọn đặt phòng khách sạn nào? */}
       <Banner />
 
-      {/* Phòng khách sạn mới và phổ biến nhất */}
       <div className="px-4 md:px-[100px]">
         <div className="md:flex md:px-[50px]">
           <h2 className="text-[32px] md:text-[36px] font-archivo font-bold md:w-[500px] md:mt-6">Dịch vụ cứu hộ phổ biến nhất</h2>

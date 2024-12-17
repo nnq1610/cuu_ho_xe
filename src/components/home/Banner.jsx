@@ -23,8 +23,7 @@ const Banner = () => {
 
     try {
       const token = localStorage.getItem('token');
-
-      const response = await axios.post('http://localhost:5050/v1/api/rescue-units/search', {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/rescue-units/search`, {
         vehicleType: selectedVehicleType,
         address: selectedLocation,
         name: searchQuery,
