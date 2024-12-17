@@ -84,13 +84,14 @@ class RescueUnitService {
                     as: "userDetails",
                 },
             },
-            { $unwind: "$userDetails" }, // Lấy thông tin user đầu tiên
+            { $unwind: "$userDetails" },
             {
                 $project: {
                     _id: 0,
                     incidentDetail: "$incidentTypes",
                     name: "$userDetails.name",
-                    phone: "$userDetails.phone", // Giả sử `phone` nằm trong bảng users
+                    phone: "$userDetails.phone",
+                    uid: "$userDetails._id"
                 },
             },
         ]);
