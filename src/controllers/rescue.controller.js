@@ -28,11 +28,11 @@ class RescueController {
 
 
     getDetailIncidentById = async(req, res, next) => {
-        const userId = req.headers['x-user-id']
+        // const userId = req.headers['x-user-id']
         const {incidentId}   = req.params
         new SuccessResponse({
             message: "Get success",
-            metadata: await RescueService.getIncidentDetail(userId, incidentId)
+            metadata: await RescueService.getIncidentDetail( incidentId)
         }).send(res)
     }
 

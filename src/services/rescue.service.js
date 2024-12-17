@@ -33,38 +33,74 @@ class RescueUnitService {
         return rescueUnit;
     }
 
-    static async getIncidentDetail(userId, incidentId) {
-        // Tìm rescue unit dựa trên userId
-        const rescueUnit = await RescueUnit.findOne({userId}).lean();
-        console.log("Rescue Unit:", rescueUnit);
+    // static async getIncidentDetail(userId, incidentId) {
+    //     // Tìm rescue unit dựa trên userId
+    //     const rescueUnit = await RescueUnit.findOne({userId}).lean();
+    //     console.log("Rescue Unit:", rescueUnit);
+    //
+    //     if (!rescueUnit) {
+    //         throw new NotFoundError("Rescue unit not found.");
+    //     }
+    //
+    //     const incidentTypes = rescueUnit.incidentTypes || [];
+    //     if (!Array.isArray(incidentTypes)) {
+    //         throw new Error("Incident types should be an array.");
+    //     }
+    //     console.log(
+    //         "Available Incident IDs:",
+    //         incidentTypes.map((incident) => incident._id.toString())
+    //     );
+    //     console.log("Provided Incident ID:", incidentId);
+    //     const incidentDetail = incidentTypes.find(
+    //         (incident) => incident._id?.toString() === incidentId.toString()
+    //     );
+    //
+    //     if (!incidentDetail) {
+    //         throw new NotFoundError("Incident not found.");
+    //     }
+    //
+    //     return {
+    //         rescueUnitName: rescueUnit.name, // Trả thêm thông tin tên Rescue Unit nếu cần
+    //         incidentDetail,
+    //         userId: userId
+    //     };
+    // }
 
-        if (!rescueUnit) {
-            throw new NotFoundError("Rescue unit not found.");
-        }
+    static async getIncidentDetail(incidentId) {
+        if (!incidentId) throw new Error("incidentId is required.");
 
-        const incidentTypes = rescueUnit.incidentTypes || [];
-        if (!Array.isArray(incidentTypes)) {
-            throw new Error("Incident types should be an array.");
-        }
-        console.log(
-            "Available Incident IDs:",
-            incidentTypes.map((incident) => incident._id.toString())
-        );
-        console.log("Provided Incident ID:", incidentId);
-        const incidentDetail = incidentTypes.find(
-            (incident) => incident._id?.toString() === incidentId.toString()
-        );
+        const [result] = await RescueUnit.aggregate([
+            { $unwind: "$incidentTypes" },
+            {
+                $match: {
+                    "incidentTypes._id": new mongoose.Types.ObjectId(incidentId)
+                }
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "userId",
+                    foreignField: "_id",
+                    as: "userDetails",
+                },
+            },
+            { $unwind: "$userDetails" }, // Lấy thông tin user đầu tiên
+            {
+                $project: {
+                    _id: 0,
+                    incidentDetail: "$incidentTypes",
+                    name: "$userDetails.name",
+                    phone: "$userDetails.phone", // Giả sử `phone` nằm trong bảng users
+                },
+            },
+        ]);
 
-        if (!incidentDetail) {
-            throw new NotFoundError("Incident not found.");
-        }
+        if (!result) throw new NotFoundError("Incident not found.");
 
-        return {
-            rescueUnitName: rescueUnit.name, // Trả thêm thông tin tên Rescue Unit nếu cần
-            incidentDetail,
-            userId: userId
-        };
+        return result;
     }
+
+
 
     static async removeIncidentType({userId, incidentTypeId}) {
 
