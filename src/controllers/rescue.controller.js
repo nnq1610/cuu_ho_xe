@@ -36,6 +36,7 @@ class RescueController {
             metadata: await RescueService.getIncidentDetail(userId, incidentId)
         }).send(res)
     }
+
     addIncidentType = async (req, res, next) => {
         const {name, description, vehicleType, price, address} = req.body
         const incidentTypeData = {name, description, vehicleType, price, address}

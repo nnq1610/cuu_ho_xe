@@ -62,6 +62,7 @@ class RescueUnitService {
         return {
             rescueUnitName: rescueUnit.name, // Trả thêm thông tin tên Rescue Unit nếu cần
             incidentDetail,
+            userId: userId
         };
     }
 
