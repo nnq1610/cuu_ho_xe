@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+// import Loading from '../components/loading/loading';
 
 const Banner = () => {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
@@ -35,7 +36,7 @@ const Banner = () => {
 
       const { metadata } = response.data;
 
-      const services = metadata.finalResult.flatMap(item => item.incidentTypes.map(type => ({
+      const services = metadata.flatMap(item => item.incidentTypes.map(type => ({
             _id: type._id,
             name: type.name.trim(),
             description: type.description,

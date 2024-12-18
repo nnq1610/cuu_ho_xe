@@ -20,58 +20,9 @@ import { getUserId } from '../utils/jwt';
 import { toast } from 'react-toastify';
 
 const Home = () => {
-  const [rooms, setRooms] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedRoomId, setSelectedRoomId] = useState('');
-
-  //Phòng khách sạn mới và phổ biến nhất
-  useEffect(() => {
-    const fetchRooms = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/room/');
-        setRooms(response.data.slice(0, 6));
-      } catch (error) {
-        console.error('Error fetching rooms:', error);
-      }
-    };
-
-    fetchRooms();
-  }, []);
-
-  // Thêm phòng vào giỏ hàng
-  const handleAddToCart = async (roomId, checkinDate, checkoutDate, room_name, room_status) => {
-    try {
-      const cartResponse = await axios.get('http://127.0.0.1:8000/cart/');
-      const cartItems = cartResponse.data?.filter((item) => item.user_id === getUserId());
-
-      const isRoomInCart = cartItems.some((item) => item.room === roomId);
-
-      if (isRoomInCart) {
-        toast.error('Phòng này đã có trong giỏ hàng!');
-        return;
-      }
-
-      const response = await axios.post('http://127.0.0.1:8000/cart/', {
-        room: roomId,
-        checkin_date: checkinDate,
-        checkout_date: checkoutDate,
-        user_id: getUserId(),
-        room_name: room_name,
-      });
-
-      if (response.status === 201) {
-        toast.success('Phòng đã được thêm vào giỏ hàng!');
-      } else {
-        toast.error('Có lỗi xảy ra khi thêm phòng vào giỏ hàng!');
-      }
-    } catch (error) {
-      toast.error('Có lỗi xảy ra khi thêm phòng vào giỏ hàng!');
-    }
-    setIsModalOpen(false);
-  };
-
+  
   const openModal = (roomId) => {
-    setSelectedRoomId(roomId);
     setIsModalOpen(true);
   };
 
@@ -92,44 +43,41 @@ const Home = () => {
         </div>
         {/* service hotel */}
         <div className="mt-20 sm:grid sm:grid-cols-2 md:grid-cols-3 justify-items-center gap-y-5">
-          {rooms.map((room) => (
-            <div key={room.room_id} className="mt-5 border-2 rounded-[30px] w-[350px] flex justify-center">
-              <div className="px-5 py-5">
-                <Link to={`/chi-tiet-phong/${room.room_id}`}>
-                  <img src={room.thumbnail} alt={room.description} className="w-[350px] h-[250px] rounded-[25px]" />
-                </Link>
-                {/* <div className="relative flex items-center bg-yellow-500 w-[150px] rounded-xl justify-center top-[-240px] left-2">
-                  <CiStar />
-                  <h2 className="text-[13px] md:text-[15px] ml-2">{service.hotel.rating} (11) đánh giá</h2>
-                </div> */}
-                <div className="flex items-center bg-pink-200 w-[200px] rounded-xl justify-center mt-2">
-                  <CiLocationOn />
-                  <h2>
-                    {room.area.name}, {room.hotel.address}
-                  </h2>
-                </div>
-                <div className="mt-5 text-[20px] font-archivo font-semibold">{room.room_type}</div>
-                <div className="flex items-center mt-3">
-                  <FaAngellist />
-                  <h2 className="text-[14px] md:text-[16px] ml-2">
-                    {room.utilities.map((utility, index) => (
-                      <span key={utility.utilities_id}>
-                        {utility.name}
-                        {index < room.utilities.length - 1 && ', '}
-                      </span>
-                    ))}
-                  </h2>
-                </div>
+          {/*{rooms.map((room) => (*/}
+          {/*  <div key={room.room_id} className="mt-5 border-2 rounded-[30px] w-[350px] flex justify-center">*/}
+          {/*    <div className="px-5 py-5">*/}
+          {/*      <Link to={`/chi-tiet-phong/${room.room_id}`}>*/}
+          {/*        <img src={room.thumbnail} alt={room.description} className="w-[350px] h-[250px] rounded-[25px]" />*/}
+          {/*      </Link>*/}
+          {/*   */}
+          {/*      <div className="flex items-center bg-pink-200 w-[200px] rounded-xl justify-center mt-2">*/}
+          {/*        <CiLocationOn />*/}
+          {/*        <h2>*/}
+          {/*          {room.area.name}, {room.hotel.address}*/}
+          {/*        </h2>*/}
+          {/*      </div>*/}
+          {/*      <div className="mt-5 text-[20px] font-archivo font-semibold">{room.room_type}</div>*/}
+          {/*      <div className="flex items-center mt-3">*/}
+          {/*        <FaAngellist />*/}
+          {/*        <h2 className="text-[14px] md:text-[16px] ml-2">*/}
+          {/*          {room.utilities.map((utility, index) => (*/}
+          {/*            <span key={utility.utilities_id}>*/}
+          {/*              {utility.name}*/}
+          {/*              {index < room.utilities.length - 1 && ', '}*/}
+          {/*            </span>*/}
+          {/*          ))}*/}
+          {/*        </h2>*/}
+          {/*      </div>*/}
 
-                {/*<div className="flex justify-between mt-5">*/}
-                {/*  <h2 className="text-[18px] md:text-[22px]">{service.price_per_night}đ / Ngày</h2>*/}
-                {/*  <button onClick={() => openModal(service.room_id)} className="h-[40px] w-[150px] bg-[#bfdbfe] rounded-[30px] hover:bg-red-500 font-archivo font-bold">*/}
-                {/*    Thêm giỏ hàng*/}
-                {/*  </button>*/}
-                {/*</div>*/}
-              </div>
-            </div>
-          ))}
+          {/*      /!*<div className="flex justify-between mt-5">*!/*/}
+          {/*      /!*  <h2 className="text-[18px] md:text-[22px]">{service.price_per_night}đ / Ngày</h2>*!/*/}
+          {/*      /!*  <button onClick={() => openModal(service.room_id)} className="h-[40px] w-[150px] bg-[#bfdbfe] rounded-[30px] hover:bg-red-500 font-archivo font-bold">*!/*/}
+          {/*      /!*    Thêm giỏ hàng*!/*/}
+          {/*      /!*  </button>*!/*/}
+          {/*      /!*</div>*!/*/}
+          {/*    </div>*/}
+          {/*  </div>*/}
+          {/*))}*/}
         </div>
         <div className="flex justify-center mt-10 pb-10">
           <motion.button
@@ -143,7 +91,7 @@ const Home = () => {
             <FaRegArrowAltCircleRight />
           </motion.button>
         </div>
-        {isModalOpen && <ModalCart roomId={selectedRoomId} onClose={closeModal} onAddToCart={handleAddToCart} />}
+        {/*{isModalOpen && <ModalCart roomId={selectedRoomId} onClose={closeModal} onAddToCart={handleAddToCart} />}*/}
       </div>
 
       {/* Đánh giá từ những người đã trải nghiệm */}
@@ -176,7 +124,7 @@ const Home = () => {
       </div>
 
       {/* Modal */}
-      {isModalOpen && <ModalCart roomId={selectedRoomId} onAddToCart={handleAddToCart} onClose={closeModal} />}
+      {/*{isModalOpen && <ModalCart roomId={selectedRoomId} onAddToCart={handleAddToCart} onClose={closeModal} />}*/}
 
       {/* Các điểm đến */}
       <div className="mt-10 pb-10">

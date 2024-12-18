@@ -11,7 +11,7 @@ const About = () => {
         <div>
           <h2 className="text-[18px] md:text-[32px] font-archivo font-bold flex items-center gap-3 mt-5 justify-center text-green-900">
             <PiCrownThin />
-            Quang dep zai
+            Dịch vụ cứu hộ
             <PiCrownThin />
           </h2>
           <div className=" flex items-center justify-center mt-3">
@@ -42,27 +42,27 @@ const About = () => {
             <div className="w-full grid md:grid-cols-2 mx-[80px]">
               <div className="flex items-center gap-5 mt-5">
                 <img src="./images/svg/maylanh.svg" alt="" className="w-[20px] h-[20px]" />
-                <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[100px]">Máy lạnh</h2>
+                <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[100px]"></h2>
               </div>
               <div className="flex items-center gap-5 mt-5">
                 <img src="./images/svg/wifi.svg" alt="" className="w-[20px] h-[20px]" />
-                <h2 className="text-[14px] md:text-[18px] font-archivo font-thin w-[100px]">Wifi</h2>
+                <h2 className="text-[14px] md:text-[18px] font-archivo font-thin w-[100px]"></h2>
               </div>
               <div className="flex items-center gap-5 mt-5">
                 <img src="./images/svg/letan.svg" alt="" className="w-[20px] h-[20px]" />
-                <h2 className="text-[14px] md:text-[18px] font-archivo font-thin w-[100px]">Lễ tân 24h</h2>
+                <h2 className="text-[14px] md:text-[18px] font-archivo font-thin w-[100px]"></h2>
               </div>
               <div className="flex items-center gap-5 mt-5">
                 <img src="./images/svg/hoboi.svg" alt="" className="w-[20px] h-[20px]" />
-                <h2 className="text-[14px] md:text-[18px] font-archivo font-thin w-[100px]">Hồ Bơi</h2>
+                <h2 className="text-[14px] md:text-[18px] font-archivo font-thin w-[100px]"></h2>
               </div>
               <div className="flex items-center gap-5 mt-5">
                 <img src="./images/svg/thangmay.svg" alt="" className="w-[20px] h-[20px]" />
-                <h2 className="text-[14px] md:text-[18px] font-archivo font-thin w-[100px]">Thang máy</h2>
+                <h2 className="text-[14px] md:text-[18px] font-archivo font-thin w-[100px]"></h2>
               </div>
               <div className="flex items-center gap-5 mt-5">
                 <img src="./images/svg/an.svg" alt="" className="w-[20px] h-[20px]" />
-                <h2 className="text-[14px] md:text-[18px] font-archivo font-thin w-[100px]">Ăn</h2>
+                <h2 className="text-[14px] md:text-[18px] font-archivo font-thin w-[100px]"></h2>
               </div>
             </div>
           </div>
@@ -79,35 +79,35 @@ const About = () => {
                 </div>
                 <div className="flex gap-3 items-center ml-5">
                   <IoArrowRedo />
-                  <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[100px] mt-3">Hải Châu</h2>
+                  <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[100px] mt-3">Hà Nội</h2>
                 </div>
                 <div className="flex gap-3 items-center ml-5">
                   <IoArrowRedo />
-                  <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[100px] mt-3">Hòa Khánh</h2>
+                  <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[100px] mt-3">Hải Phòng</h2>
                 </div>
                 <div className="flex gap-3 items-center ml-5">
                   <IoArrowRedo />
-                  <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[100px] mt-3">Sơn Trà</h2>
+                  <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[100px] mt-3">Nam Định</h2>
                 </div>
               </div>
-              <div className="w-full mx-[80px]">
-                <div className="flex items-center gap-5 mt-5">
-                  <IoLocationOutline />
-                  <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[200px]">Vị trí thuận tiện</h2>
-                </div>
-                <div className="flex gap-3 items-center ml-5">
-                  <IoArrowRedo />
-                  <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[200px] mt-3">Bệnh viện Hoàn Mỹ</h2>
-                </div>
-                <div className="flex gap-3 items-center ml-5">
-                  <IoArrowRedo />
-                  <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[200px] mt-3">Cầu rồng</h2>
-                </div>
-                <div className="flex gap-3 items-center ml-5">
-                  <IoArrowRedo />
-                  <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[200px] mt-3">Cầu sông Hàn</h2>
-                </div>
-              </div>
+              {/*<div className="w-full mx-[80px]">*/}
+              {/*  <div className="flex items-center gap-5 mt-5">*/}
+              {/*    <IoLocationOutline />*/}
+              {/*    <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[200px]">Vị trí thuận tiện</h2>*/}
+              {/*  </div>*/}
+              {/*  <div className="flex gap-3 items-center ml-5">*/}
+              {/*    <IoArrowRedo />*/}
+              {/*    <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[200px] mt-3"></h2>*/}
+              {/*  </div>*/}
+              {/*  <div className="flex gap-3 items-center ml-5">*/}
+              {/*    <IoArrowRedo />*/}
+              {/*    <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[200px] mt-3"></h2>*/}
+              {/*  </div>*/}
+              {/*  <div className="flex gap-3 items-center ml-5">*/}
+              {/*    <IoArrowRedo />*/}
+              {/*    <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[200px] mt-3"></h2>*/}
+              {/*  </div>*/}
+              {/*</div>*/}
             </div>
           </div>
         </div>
