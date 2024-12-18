@@ -170,59 +170,83 @@ class RescueUnitService {
     }
 
 
-    static async searchRescueUnits(filters) {
-        try {
-            const query = {};
+    // static async searchRescueUnits(filters) {
+    //     try {
+    //         const query = {};
+    //
+    //         if (filters.name) {
+    //             query.name = {$regex: filters.name, $options: 'i'};
+    //         }
+    //
+    //         const rescueUnits = await RescueUnit.find(query);
+    //
+    //         const filteredUnits = rescueUnits.map((unit) => {
+    //             const incidentTypes = unit.incidentTypes || [];
+    //
+    //             const filteredIncidentTypes = incidentTypes.filter((type) => {
+    //                 let isValid = true;
+    //
+    //                 if (filters.vehicleType) {
+    //                     isValid = isValid &&
+    //                         type.vehicleType?.toLowerCase() === filters.vehicleType.toLowerCase();
+    //                 }
+    //
+    //                 if (filters.address) {
+    //                     const regex = new RegExp(filters.address, 'i');
+    //                     isValid = isValid && regex.test(type.address || '');
+    //                 }
+    //
+    //                 return isValid;
+    //             });
+    //
+    //             return {
+    //                 incidentTypes: filteredIncidentTypes
+    //             };
+    //         });
+    //
+    //         const finalResult = filteredUnits.filter((unit) =>
+    //             unit.incidentTypes && unit.incidentTypes.length > 0
+    //         );
+    //         console.log('final result: ',finalResult)
+    //         return {
+    //             finalResult
+    //         };
+    //     } catch (error) {
+    //         console.error('Error searching rescue units:', error);
+    //         throw new Error('Lỗi trong quá trình tìm kiếm các dịch vụ.');
+    //     }
+    // }
+     static async searchRescueUnits(filter) {
+         try {
+             const elemMatchConditions = {};
+             const {name, vehicleType, address } = filter
+             if (name) {
+                 elemMatchConditions.name = { $regex: name, $options: 'i' };
+             }
+             if (vehicleType) {
+                 elemMatchConditions.vehicleType = { $regex: vehicleType, $options: 'i' };
+             }
+             if (address) {
+                 elemMatchConditions.address = { $regex: address, $options: 'i' };
+             }
 
-            // Tìm kiếm theo name (không phân biệt hoa thường, tìm kiếm bao gồm)
-            if (filters.name) {
-                query.name = {$regex: filters.name, $options: 'i'};
-            }
+             const result = await RescueUnit.find(
+                 { incidentTypes: { $elemMatch: elemMatchConditions } },
+                 {
+                     userId: 1,         // Trả về các trường cần thiết
+                     rating: 1,
+                     activeStatus: 1,
+                     incidentTypes: 1   // Trả về toàn bộ mảng incidentTypes (bao gồm phần tử phù hợp)
+                 }
+             );
 
-            // Lấy danh sách rescue units phù hợp với query
-            const rescueUnits = await RescueUnit.find(query);
-
-            // Áp dụng bộ lọc trên từng unit
-            const filteredUnits = rescueUnits.map((unit) => {
-                const incidentTypes = unit.incidentTypes || [];
-
-                // Lọc incidentTypes theo vehicleType và address nếu có
-                const filteredIncidentTypes = incidentTypes.filter((type) => {
-                    let isValid = true;
-
-                    // Lọc theo vehicleType
-                    if (filters.vehicleType) {
-                        isValid = isValid &&
-                            type.vehicleType?.toLowerCase() === filters.vehicleType.toLowerCase();
-                    }
-
-                    // Lọc theo address (tìm kiếm một phần)
-                    if (filters.address) {
-                        const regex = new RegExp(filters.address, 'i'); // Không phân biệt hoa thường
-                        isValid = isValid && regex.test(type.address || '');
-                    }
-
-                    return isValid;
-                });
-
-                return {
-                    // ...unit._doc,
-                    incidentTypes: filteredIncidentTypes
-                };
-            });
-
-            const finalResult = filteredUnits.filter((unit) =>
-                unit.incidentTypes && unit.incidentTypes.length > 0
-            );
-            console.log('final result: ',finalResult)
-            return {
-                finalResult
-            };
-        } catch (error) {
-            console.error('Error searching rescue units:', error);
-            throw new Error('Lỗi trong quá trình tìm kiếm các rescue units.');
-        }
-    }
+             console.log('Search Results:', JSON.stringify(result, null, 2));
+             return result;
+         } catch (error) {
+             console.error('Error during search:', error);
+             throw error;
+         }
+     }
 }
 
 
