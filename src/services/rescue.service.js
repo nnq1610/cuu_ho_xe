@@ -33,38 +33,6 @@ class RescueUnitService {
         return rescueUnit;
     }
 
-    // static async getIncidentDetail(userId, incidentId) {
-    //     // Tìm rescue unit dựa trên userId
-    //     const rescueUnit = await RescueUnit.findOne({userId}).lean();
-    //     console.log("Rescue Unit:", rescueUnit);
-    //
-    //     if (!rescueUnit) {
-    //         throw new NotFoundError("Rescue unit not found.");
-    //     }
-    //
-    //     const incidentTypes = rescueUnit.incidentTypes || [];
-    //     if (!Array.isArray(incidentTypes)) {
-    //         throw new Error("Incident types should be an array.");
-    //     }
-    //     console.log(
-    //         "Available Incident IDs:",
-    //         incidentTypes.map((incident) => incident._id.toString())
-    //     );
-    //     console.log("Provided Incident ID:", incidentId);
-    //     const incidentDetail = incidentTypes.find(
-    //         (incident) => incident._id?.toString() === incidentId.toString()
-    //     );
-    //
-    //     if (!incidentDetail) {
-    //         throw new NotFoundError("Incident not found.");
-    //     }
-    //
-    //     return {
-    //         rescueUnitName: rescueUnit.name, // Trả thêm thông tin tên Rescue Unit nếu cần
-    //         incidentDetail,
-    //         userId: userId
-    //     };
-    // }
 
     static async getIncidentDetail(incidentId) {
         if (!incidentId) throw new Error("incidentId is required.");
