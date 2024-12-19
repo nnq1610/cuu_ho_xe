@@ -16,11 +16,11 @@ const Profile = () => {
     }, []);
 
     const token = localStorage.getItem('token');
+    const userId = getUserId();
 
     const fetchUserInfo = async () => {
         try {
-            const uid = getUserId();
-            const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/user/${uid}`, {
+            const response = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/user/${userId}`, {
                 headers: {
                     'x-access-token': token,
                 },
@@ -51,6 +51,42 @@ const Profile = () => {
         } catch (error) {
             console.error('Error saving user info:', error);
         }
+    };
+
+    const handleDeleteAccount = () => {
+        Swal.fire({
+            title: 'Bạn chắc chắn muốn xóa tài khoản?',
+            text: 'Lưu ý mọi thông tin liên quan về tài khoản sẽ bị xóa!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Tiếp tục',
+            cancelButtonText: 'Huỷ',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/user/${userId}`, {
+                        headers: {
+                            'x-access-token': token,
+                        },
+                    });
+                    if (response.status === 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Xóa tài khoản thành công!',
+                            text: 'Tất cả thông tin liên quan đã được xóa.',
+                        });
+                        navigate('/login'); // Điều hướng đến trang đăng nhập
+                    }
+                } catch (error) {
+                    console.error('Error deleting account:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Đã xảy ra lỗi khi xóa tài khoản.',
+                    });
+                }
+            }
+        });
     };
 
     return (
@@ -109,12 +145,20 @@ const Profile = () => {
                         </button>
                     </>
                 ) : (
-                    <button
-                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                        onClick={() => setIsEditing(true)}
-                    >
-                        Chỉnh Sửa
-                    </button>
+                    <>
+                        <button
+                            className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                            onClick={() => setIsEditing(true)}
+                        >
+                            Chỉnh Sửa
+                        </button>
+                        <button
+                            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                            onClick={handleDeleteAccount}
+                        >
+                            Xóa Tài Khoản
+                        </button>
+                    </>
                 )}
             </div>
         </div>

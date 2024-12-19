@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-// import Loading from '../components/loading/loading';
+import Swal from 'sweetalert2';
 
 const Banner = () => {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
@@ -21,9 +21,20 @@ const Banner = () => {
 
   const handleSearch = async (event) => {
     event.preventDefault();
+    const token = localStorage.getItem('token');
 
+    if (!token) {
+      Swal.fire({
+        title: 'Bạn vui lòng đăng nhập',
+        text: 'Bạn cần đăng nhập để thực hiện tìm kiếm.',
+        icon: 'warning',
+        confirmButtonText: 'Đăng nhập',
+      }).then(() => {
+        navigate('/login');
+      });
+      return;
+    }
     try {
-      const token = localStorage.getItem('token');
       const response = await axios.post(`${process.env.REACT_APP_BASE_API_URL}/rescue-units/search`, {
         vehicleType: selectedVehicleType,
         address: selectedLocation,
@@ -73,7 +84,7 @@ const Banner = () => {
               <img src="/images/img.png" alt="Cứu hộ 2" className="w-full h-full object-cover" />
             </SwiperSlide>
             <SwiperSlide>
-              <img src="/images/hotel1.jpg" alt="Cứu hộ 3" className="w-full h-full object-cover" />
+              <img src="/images/img8.jpg" alt="Cứu hộ 3" className="w-full h-full object-cover" />
             </SwiperSlide>
           </Swiper>
         </div>

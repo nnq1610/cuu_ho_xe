@@ -2,7 +2,7 @@ import React from 'react';
 import { IoMdArrowForward } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
-const RoomNotFound = ({ isCartPage }) => {
+const ServiceNotFound = ({ isCartPage }) => {
   return (
     <div className="rounded-[30px] border-2 px-3 py-5 shadow">
       <div className="flex justify-center">
@@ -29,4 +29,4 @@ const RoomNotFound = ({ isCartPage }) => {
   );
 };
 
-export default RoomNotFound;
+export default ServiceNotFound;

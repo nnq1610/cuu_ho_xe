@@ -1,7 +1,6 @@
 import React from 'react';
 import { IoArrowRedo, IoLocationOutline } from 'react-icons/io5';
 import { PiCrownThin } from 'react-icons/pi';
-import Adress from '../components/home/Adress';
 
 const About = () => {
   return (
@@ -90,31 +89,12 @@ const About = () => {
                   <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[100px] mt-3">Nam Định</h2>
                 </div>
               </div>
-              {/*<div className="w-full mx-[80px]">*/}
-              {/*  <div className="flex items-center gap-5 mt-5">*/}
-              {/*    <IoLocationOutline />*/}
-              {/*    <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[200px]">Vị trí thuận tiện</h2>*/}
-              {/*  </div>*/}
-              {/*  <div className="flex gap-3 items-center ml-5">*/}
-              {/*    <IoArrowRedo />*/}
-              {/*    <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[200px] mt-3"></h2>*/}
-              {/*  </div>*/}
-              {/*  <div className="flex gap-3 items-center ml-5">*/}
-              {/*    <IoArrowRedo />*/}
-              {/*    <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[200px] mt-3"></h2>*/}
-              {/*  </div>*/}
-              {/*  <div className="flex gap-3 items-center ml-5">*/}
-              {/*    <IoArrowRedo />*/}
-              {/*    <h2 className="text-[14px] md:text-[18px] font-archivo font-thin sm:w-[200px] mt-3"></h2>*/}
-              {/*  </div>*/}
-              {/*</div>*/}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Chi nhánh */}
-      <Adress />
+
     </div>
   );
 };

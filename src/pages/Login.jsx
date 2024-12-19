@@ -94,7 +94,7 @@ const Login = () => {
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
         <div className="flex justify-center">
           <Link to="/">
-            <img src="./images/logohavenhotel.png" alt="" className="w-[200px] h-[130px] mb-[30px]" />
+            <img src="./images/img_7.png" alt="" className="w-[200px] h-[130px] mb-[30px]" />
           </Link>
         </div>
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Đăng nhập</h2>

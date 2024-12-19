@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
-import RoomNotFound from '../components/allService/RoomNotFound';
+import ServiceNotFound from '../components/allService/ServiceNotFound';
 import { getUserId } from '../utils/jwt';
 
 const Cart = () => {
@@ -195,7 +195,7 @@ const Cart = () => {
         <p>{error}</p>
       ) : cartItems.length === 0 ? (
         <div className="mt-5 mb-5 px-20">
-          <RoomNotFound isCartPage={true} />
+          <ServiceNotFound isCartPage={true} />
         </div>
       ) : (
         <div className="flex items-center flex-col">

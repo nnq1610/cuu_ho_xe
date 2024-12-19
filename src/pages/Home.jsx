@@ -3,21 +3,16 @@ import { CiLocationOn, CiStar } from 'react-icons/ci';
 import { FaAngellist, FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { IoBedOutline } from 'react-icons/io5';
 
-//components
+//
 import Slider from '../components/home/Slider';
 import Banner from '../components/home/Banner';
-import Adress from '../components/home/Adress';
-// import Partners from '../components/home/Partners';
 import BlogPost from '../components/home/BlogPost';
 import { motion } from 'framer-motion';
-//vatiants
+//
 import { fadeIn } from '../variants';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import axios from 'axios';
-import ModalCart from './ModalCart';
-import { getUserId } from '../utils/jwt';
-import { toast } from 'react-toastify';
+
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,43 +36,7 @@ const Home = () => {
             Tìm các dịch vụ cứu hộ một cách nhanh chóng và chính xác.
           </p>
         </div>
-        {/* service hotel */}
         <div className="mt-20 sm:grid sm:grid-cols-2 md:grid-cols-3 justify-items-center gap-y-5">
-          {/*{rooms.map((room) => (*/}
-          {/*  <div key={room.room_id} className="mt-5 border-2 rounded-[30px] w-[350px] flex justify-center">*/}
-          {/*    <div className="px-5 py-5">*/}
-          {/*      <Link to={`/chi-tiet-phong/${room.room_id}`}>*/}
-          {/*        <img src={room.thumbnail} alt={room.description} className="w-[350px] h-[250px] rounded-[25px]" />*/}
-          {/*      </Link>*/}
-          {/*   */}
-          {/*      <div className="flex items-center bg-pink-200 w-[200px] rounded-xl justify-center mt-2">*/}
-          {/*        <CiLocationOn />*/}
-          {/*        <h2>*/}
-          {/*          {room.area.name}, {room.hotel.address}*/}
-          {/*        </h2>*/}
-          {/*      </div>*/}
-          {/*      <div className="mt-5 text-[20px] font-archivo font-semibold">{room.room_type}</div>*/}
-          {/*      <div className="flex items-center mt-3">*/}
-          {/*        <FaAngellist />*/}
-          {/*        <h2 className="text-[14px] md:text-[16px] ml-2">*/}
-          {/*          {room.utilities.map((utility, index) => (*/}
-          {/*            <span key={utility.utilities_id}>*/}
-          {/*              {utility.name}*/}
-          {/*              {index < room.utilities.length - 1 && ', '}*/}
-          {/*            </span>*/}
-          {/*          ))}*/}
-          {/*        </h2>*/}
-          {/*      </div>*/}
-
-          {/*      /!*<div className="flex justify-between mt-5">*!/*/}
-          {/*      /!*  <h2 className="text-[18px] md:text-[22px]">{service.price_per_night}đ / Ngày</h2>*!/*/}
-          {/*      /!*  <button onClick={() => openModal(service.room_id)} className="h-[40px] w-[150px] bg-[#bfdbfe] rounded-[30px] hover:bg-red-500 font-archivo font-bold">*!/*/}
-          {/*      /!*    Thêm giỏ hàng*!/*/}
-          {/*      /!*  </button>*!/*/}
-          {/*      /!*</div>*!/*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-          {/*))}*/}
         </div>
         <div className="flex justify-center mt-10 pb-10">
           <motion.button
@@ -123,8 +82,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Modal */}
-      {/*{isModalOpen && <ModalCart roomId={selectedRoomId} onAddToCart={handleAddToCart} onClose={closeModal} />}*/}
+
 
       {/* Các điểm đến */}
       <div className="mt-10 pb-10">
@@ -132,13 +90,8 @@ const Home = () => {
           <h2 className="text-[22px] md:text-[36px] font-archivo font-bold">Các chi nhánh của dịch vụ</h2>
           <p className="text-[14px] md:text-[19px] font-archivo text-green-900 mt-5 md:mt-0"></p>
         </div>
-        <Adress />
       </div>
 
-      {/* Đối tác */}
-      {/*<Partners />*/}
-
-      {/* Bài viết */}
       <BlogPost />
     </div>
   );
