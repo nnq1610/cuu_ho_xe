@@ -4,25 +4,7 @@ import axios from 'axios'; // Import axios
 import { getUserId } from '../utils/jwt';
 
 const Menu = () => {
-  // const [showBranches, setShowBranches] = useState(false);
-  //
-  // const fetchBranches = async () => {
-  //   try {
-  //     const response = await axios.get('http://127.0.0.1:8000/hotels/');
-  //     setBranches(response.data);
-  //   } catch (error) {
-  //     console.error('Error fetching branches:', error);
-  //   }
-  // };
-  //
-  // useEffect(() => {
-  //   fetchBranches();
-  //   setIsLoggedIn(getUserId());
-  // }, []);
-  //
-  // const toggleBranches = () => {
-  //   setShowBranches(!showBranches);
-  // };
+
 
   return (
     <div className="flex justify-center mt-3 pb-3 mr-16 ml-16 sm:mr-1 sm:ml-1">

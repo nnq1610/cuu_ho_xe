@@ -7,7 +7,7 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-to-bg': 'linear-gradient(to bottom, #eef8fd, #fff)',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'bg-image-1': "url('/public/images/hotel1.jpg')",
+        'bg-image-1': "url('/public/images/img8.jpg')",
         'bg-home-1': "url('/public/images/bgimg1.png')",
         'bg-chat-1': "url('/public/images/chat1.jpg')",
         'bg-white': 'linear-gradient(to bottom, #fff, #fff)',
