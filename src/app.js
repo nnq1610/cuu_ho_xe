@@ -16,12 +16,11 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended : true
 }))
-//init route
-// Cấu hình chính xác CORS
+
 app.use(cors({
-    origin: 'https://cuu-ho-xe-1.onrender.com', // URL frontend (React) của bạn
+    origin: 'https://cuu-ho-xe.onrender.com',
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức HTTP được phép
-    allowedHeaders: ['Content-Type', 'Authorization','x-access-token', 'x-user-id'], // Các headers cho phép
+    allowedHeaders: ['Content-Type', 'Authorization','x-access-token', 'x-user-id'],
     credentials: true // Cho phép gửi cookie và xác thực giữa các domain
 }));
 app.use('', require('./routes/index.js'))

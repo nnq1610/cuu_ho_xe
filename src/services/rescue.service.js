@@ -169,84 +169,60 @@ class RescueUnitService {
         return updatedUnit;
     }
 
+    static async searchRescueUnits(filter) {
+        try {
+            const { name, vehicleType, address } = filter;
 
-    // static async searchRescueUnits(filters) {
-    //     try {
-    //         const query = {};
-    //
-    //         if (filters.name) {
-    //             query.name = {$regex: filters.name, $options: 'i'};
-    //         }
-    //
-    //         const rescueUnits = await RescueUnit.find(query);
-    //
-    //         const filteredUnits = rescueUnits.map((unit) => {
-    //             const incidentTypes = unit.incidentTypes || [];
-    //
-    //             const filteredIncidentTypes = incidentTypes.filter((type) => {
-    //                 let isValid = true;
-    //
-    //                 if (filters.vehicleType) {
-    //                     isValid = isValid &&
-    //                         type.vehicleType?.toLowerCase() === filters.vehicleType.toLowerCase();
-    //                 }
-    //
-    //                 if (filters.address) {
-    //                     const regex = new RegExp(filters.address, 'i');
-    //                     isValid = isValid && regex.test(type.address || '');
-    //                 }
-    //
-    //                 return isValid;
-    //             });
-    //
-    //             return {
-    //                 incidentTypes: filteredIncidentTypes
-    //             };
-    //         });
-    //
-    //         const finalResult = filteredUnits.filter((unit) =>
-    //             unit.incidentTypes && unit.incidentTypes.length > 0
-    //         );
-    //         console.log('final result: ',finalResult)
-    //         return {
-    //             finalResult
-    //         };
-    //     } catch (error) {
-    //         console.error('Error searching rescue units:', error);
-    //         throw new Error('Lỗi trong quá trình tìm kiếm các dịch vụ.');
-    //     }
-    // }
-     static async searchRescueUnits(filter) {
-         try {
-             const elemMatchConditions = {};
-             const {name, vehicleType, address } = filter
-             if (name) {
-                 elemMatchConditions.name = { $regex: name, $options: 'i' };
-             }
-             if (vehicleType) {
-                 elemMatchConditions.vehicleType = { $regex: vehicleType, $options: 'i' };
-             }
-             if (address) {
-                 elemMatchConditions.address = { $regex: address, $options: 'i' };
-             }
+            const matchConditions = {};
 
-             const result = await RescueUnit.find(
-                 { incidentTypes: { $elemMatch: elemMatchConditions } },
-                 {
-                     userId: 1,         // Trả về các trường cần thiết
-                     rating: 1,
-                     activeStatus: 1,
-                     incidentTypes: 1   // Trả về toàn bộ mảng incidentTypes (bao gồm phần tử phù hợp)
-                 }
-             );
+            if (name) {
+                matchConditions['incidentTypes.name'] = { $regex: name, $options: 'i' };
+            }
+            if (vehicleType) {
+                matchConditions['incidentTypes.vehicleType'] = { $regex: vehicleType, $options: 'i' };
+            }
+            if (address) {
+                matchConditions['incidentTypes.address'] = { $regex: address, $options: 'i' };
+            }
 
-             console.log('Search Results:', JSON.stringify(result, null, 2));
-             return result;
-         } catch (error) {
-             console.error('Error during search:', error);
-             throw error;
-         }
-     }
+            const pipeline = [
+                { $match: matchConditions },
+                {
+                    $project: {
+                        userId: 1,
+                        rating: 1,
+                        activeStatus: 1,
+                        incidentTypes: {
+                            $filter: {
+                                input: '$incidentTypes',
+                                as: 'type',
+                                cond: {
+                                    $and: [
+                                        name ? { $regexMatch: { input: '$$type.name', regex: name, options: 'i' } } : {},
+                                        vehicleType
+                                            ? { $regexMatch: { input: '$$type.vehicleType', regex: vehicleType, options: 'i' } }
+                                            : {},
+                                        address
+                                            ? { $regexMatch: { input: '$$type.address', regex: address, options: 'i' } }
+                                            : {},
+                                    ],
+                                },
+                            },
+                        },
+                    },
+                },
+            ];
+
+            const result = await RescueUnit.aggregate(pipeline);
+
+            console.log('Search Results:', JSON.stringify(result, null, 2));
+            return result;
+        } catch (error) {
+            console.error('Error during search:', error);
+            throw error;
+        }
+    }
+
 }
 
 

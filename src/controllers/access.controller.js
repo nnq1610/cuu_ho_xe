@@ -76,18 +76,25 @@ class AccessController {
             metadata: await AccessService.changePassword(req.body)
         }).send(res)
     }
+
     deleteAccount = async(req, res, next) => {
-
         const {userId} = req.params;
-
-        if (!mongoose.Types.ObjectId.isValid(userId)) {
-            throw new BadRequestError("Invalid user ID format");
+        const id = req.userId;
+        if(userId !== id) {
+            return new SuccessResponse({
+                message: 'Bạn không có quyền xoá dữ liệu này!',
+                metadata: null
+            }).send(res);
         }
-        new SuccessResponse({
-            message:'Delete success !!!',
-            metadata: await  AccessService.deleteAccount(req.params)
-        }).send(res)
+        return new SuccessResponse({
+            message: 'Account deleted successfully',
+            metadata: await AccessService.deleteAccount(id)
+        }).send(res);
+
+
     }
+
+
 
 }
 

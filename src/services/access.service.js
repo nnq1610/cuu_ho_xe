@@ -3,8 +3,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const userModel = require('../models/user.model');
+const reviewModel = require('../models/review.model');
+const rescueUnitModel = require('../models/rescueUnit.model');
 const { BadRequestError, AuthFailureError } = require("../core/error.response");
 const { getInforData } = require("../utils");
+const mongoose = require("mongoose");
 
 class AccessService {
 
@@ -17,7 +20,7 @@ class AccessService {
         const passwordHash = await bcrypt.hash(password, 10).catch(err => {
             throw new Error('Error hashing password: ' + err.message);
         });
-        // Tạo người dùng mới
+
         const newUser = await userModel.create({
             name,
             email,
@@ -49,15 +52,12 @@ class AccessService {
 
 
     static login = async ({ email, password }) => {
-        // Tìm người dùng theo email
         const user = await userModel.findOne({ email });
         if (!user) throw new BadRequestError('Error: User not found !!!');
 
-        // Kiểm tra mật khẩu
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) throw new AuthFailureError('Error: Invalid credentials !!!');
 
-        // Tạo token
         const token = jwt.sign(
             { userId: user._id, role: user.role },
             process.env.JWT_SECRET,
@@ -72,13 +72,10 @@ class AccessService {
             token
         };
     };
-
-    // Đăng xuất người dùng
     static logout =  () => {
         return { message: "Logout successful" };
     };
 
-    //Lay userByName
     static getUserById = async (id) => {
         if (!id) throw new BadRequestError('User ID is required');
 
@@ -105,15 +102,29 @@ class AccessService {
         });
     };
 
-    static deleteUser = async (id) => {
-        if (!id) throw new BadRequestError('User ID is required');
+    static deleteAccount = async (userId) => {
+            const deletedUser = await userModel.findByIdAndDelete(userId);
+            if (!deletedUser) {
+                throw new BadRequestError('User not found');
+            }
+            const deleteReviewsResult = await reviewModel.deleteMany({ userId });
 
-        const deletedUser = await userModel.findByIdAndDelete(id);
-        if (!deletedUser) throw new BadRequestError('Failed to delete user');
+            const deleteRescueUnitsResult = await rescueUnitModel.deleteMany(
+                { userId }
+            );
 
-        return { message: 'User deleted successfully' };
+            return {
+                message: 'User and all related data deleted successfully',
+                details: {
+                    deletedUser: userId,
+                    deletedReviewsCount: deleteReviewsResult.deletedCount,
+                    deletedRescueUnitsCount: deleteRescueUnitsResult.deletedCount,
+                },
+            };
     };
-    // Lấy danh sách người dùng với phân trang
+
+
+
     static listUsers = async ({ page = 1, limit = 10 }) => {
         const skip = (page - 1) * limit;
 
@@ -136,21 +147,6 @@ class AccessService {
                 totalPages: Math.ceil(totalUsers / limit),
                 totalUsers
             }
-        };
-    };
-
-    static deleteAccount = async (id) => {
-        if (!id) throw new BadRequestError('User ID is required');
-
-        const deletedUser = await userModel.findByIdAndDelete(id);
-        if (!deletedUser) throw new BadRequestError('User not found or already deleted');
-
-        return {
-            message: 'User deleted successfully',
-            deletedUser: getInforData({
-                fields: ['_id', 'name', 'email', 'phone', 'role', 'address'],
-                object: deletedUser
-            })
         };
     };
 

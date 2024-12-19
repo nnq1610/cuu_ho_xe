@@ -2,7 +2,6 @@ const express = require('express');
 const accessController = require('../../controllers/access.controller.js');
 const {checkJWT} = require('../../middlewares/checkJWT')
 const asyncHandler = require('../../helpers/asyncHandler.js');
-// const {upload} = require('../../middlewares/upload');
 const {upload, uploadToCloudinary} = require('../../middlewares/upload');
 const router = express.Router();
 
@@ -24,7 +23,7 @@ router.get('/user/:id', asyncHandler(accessController.getUserById))
 router.get('/user/me', checkJWT, asyncHandler(accessController.getUser))
 
 //delete Account byId
-router.delete('/user/:id', asyncHandler(accessController.deleteAccount))
+router.delete('/user/:userId',checkJWT, asyncHandler(accessController.deleteAccount))
 
 //Get list users
 router.get('/users', asyncHandler(accessController.getListUsers))
