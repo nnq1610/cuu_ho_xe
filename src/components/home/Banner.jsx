@@ -89,8 +89,8 @@ const Banner = () => {
           </Swiper>
         </div>
 
-        <div className="bg-white shadow-md w-[300px] sm0:w-[80%] sm:w-[65%] h-[440px] sm:h-[240px] rounded-[30px] mt-5 relative z-[400] md:top-[-130px]">
-          <div className="mx-5 my-10">
+        <div className="bg-white shadow-md w-[300px] sm0:w-[80%] sm:w-[65%] h-[440px] sm:h-[240px] rounded-[30px] mt-100 relative z-[400] md:top-[0px]">
+          <div className=" mx-5 my-10">
             <h2 className="text-[24px] md:text-[30px] text-center font-bold">
               Bạn lựa chọn dịch vụ cứu hộ nào?
             </h2>

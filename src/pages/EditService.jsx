@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -24,6 +24,7 @@ const EditService = () => {
         }));
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -31,9 +32,9 @@ const EditService = () => {
                 name: serviceData.name,
                 description: serviceData.description,
                 price: serviceData.price,
+                address: serviceData.address, // Thêm trường địa chỉ
                 image: typeof image === 'string' ? image : null, // Nếu đã là URL thì gửi trực tiếp
                 vehicleType: serviceData.vehicleType,
-
             };
 
             const token = localStorage.getItem('token');
@@ -48,36 +49,26 @@ const EditService = () => {
             );
             Swal.fire({
                 icon: 'success',
-                title: 'Đăng ký thành công!',
-                text: 'Chúc mừng bạn đã đăng ký tài khoản thành công.',
+                title: 'Cập nhật thành công!',
+                text: 'Dịch vụ đã được cập nhật.',
                 timer: 3000,
                 timerProgressBar: true,
-                // willClose: () => {
-                //     navigate('/', {
-                //         state: {
-                //             notify: {
-                //                 type: 'success',
-                //                 message: 'Đăng ký thành công!',
-                //             },
-                //         },
-                //     });
-                // },
             });
         } catch (error) {
             console.error('Error updating service:', error.response?.data || error);
             Swal.fire({
                 icon: 'error',
-                title: 'Đăng ký thất bại!',
+                title: 'Cập nhật thất bại!',
                 text: error.detail || 'Có lỗi xảy ra.',
-            });        }
+            });
+        }
     };
-
-
 
     return (
         <div className="px-4 md:px-20 lg:px-40">
             <h1 className="text-3xl font-bold text-center text-blue-600 mt-5">
-                Chỉnh sửa dịch vụ</h1>
+                Chỉnh sửa dịch vụ
+            </h1>
 
             {/* Form chỉnh sửa */}
             <form onSubmit={handleSubmit} className="mt-10">
@@ -131,7 +122,6 @@ const EditService = () => {
                         <option value="Car">Ô tô</option>
                         <option value="Bike">Xe máy</option>
                         <option value="Truck">Xe tải</option>
-                        {/* Thêm các tùy chọn khác nếu cần */}
                     </select>
                 </div>
                 <div className="mb-6">
@@ -148,7 +138,6 @@ const EditService = () => {
                         rows="4"
                     />
                 </div>
-
                 <div className="mb-6">
                     <label className="block text-lg font-medium text-gray-700" htmlFor="price">
                         Giá tiền (VNĐ)
@@ -164,12 +153,29 @@ const EditService = () => {
                     />
                 </div>
 
-                <button type="submit"
-                        className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600">
+                {/* Thêm trường chỉnh sửa địa chỉ */}
+                <div className="mb-6">
+                    <label className="block text-lg font-medium text-gray-700" htmlFor="address">
+                        Địa chỉ
+                    </label>
+                    <input
+                        id="address"
+                        name="address"
+                        type="text"
+                        value={serviceData.address || ''}
+                        onChange={handleChange}
+                        className="mt-2 p-3 w-full border border-gray-300 rounded-md"
+                        placeholder="Địa chỉ dịch vụ"
+                    />
+                </div>
+
+                <button
+                    type="submit"
+                    className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600"
+                >
                     Cập nhật
                 </button>
             </form>
-
         </div>
     );
 };
