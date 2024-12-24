@@ -15,7 +15,6 @@ const rescueUnitSchema = new Schema({
         ref: 'users',
         required: true
     },
-
     incidentTypes: [
         {
             name: {
@@ -28,11 +27,11 @@ const rescueUnitSchema = new Schema({
             },
             vehicleType: {
                 type: String,
-                required: true
+                // required: true
             },
             price: {
                 type: Number,
-                required: true
+                // required: true
             },
             address: {
                 type: String,
@@ -44,10 +43,6 @@ const rescueUnitSchema = new Schema({
             }
         }
     ],
-    rating: {
-        type: Number,
-        default: 0
-    },
     activeStatus: {
         type: Boolean,
         default: true

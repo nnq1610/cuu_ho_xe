@@ -1,6 +1,5 @@
 const RescueUnit = require('../models/rescueUnit.model'); // Model của RescueUnit
 const { BadRequestError, NotFoundError } = require('../core/error.response');
-const { getInforData, unGetSelectData } = require("../utils");
 const mongoose = require('mongoose');
 const {Error} = require("mongoose");
 const {uploadImage} = require("../configs/cloudinary.config");
@@ -95,14 +94,15 @@ class RescueUnitService {
             throw new BadRequestError("User ID and incident type data are required");
         }
         const rescueUnit = await RescueUnit.findOne({userId});
+
         if (!rescueUnit) {
             const newRC = await this.createRescueUnit({userId})
             newRC.incidentTypes.push(incidentTypeData);
             const updatedRescueUnit = await rescueUnit.save();
             return updatedRescueUnit;
         }
-        rescueUnit.incidentTypes.push(incidentTypeData);
 
+        rescueUnit.incidentTypes.push(incidentTypeData);
         const updatedRescueUnit = await rescueUnit.save();
         return updatedRescueUnit;
     }

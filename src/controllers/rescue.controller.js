@@ -3,8 +3,7 @@
 const RescueService = require('../services/rescue.service')
 const {OkSuccess, CreatedSuccess, SuccessResponse} = require('../core/success.response.js');
 const {deserialize} = require("mongodb");
-const req = require("express/lib/request");
-
+const {incidentTypeSchema} = require('../validators/incidentType.validation')
 class RescueController {
     createRescueUnit = async (req, res, next) => {
 
@@ -43,21 +42,39 @@ class RescueController {
         if(file && file.url ) {
             incidentTypeData.image = file.url
         }
+        const { error } = incidentTypeSchema.validate(incidentTypeData, { abortEarly: false });
+        if (error) {
+            return res.status(400).json({
+                success: false,
+                message: "validate sai",
+                errors: error.details.map((err) => err.message),
+            });
+        }
+
         const userId = req.userId
-        // if(incidentTypeData.image.url)
         new SuccessResponse({
             message : 'Update success !!!',
             metadata : await RescueService.addIncidentType({ userId, incidentTypeData })
         }).send(res);
     }
+
     updateIncidentType = async(req, res, next) => {
         const { incidentTypeId } = req.params;
         const {name, description, vehicleType, price, address} = req.body
         const file = req.file
         const updateData = {name, description, vehicleType, price, address}
-            if(file && file.url) {
-                updateData.image = file.url
-            }
+        if(file && file.url) {
+            updateData.image = file.url
+        }
+        const { error } = incidentTypeSchema.validate(updateData, { abortEarly: false });
+        if (error) {
+            return res.status(400).json({
+                success: false,
+                message: "Validation error",
+                errors: error.details.map((err) => err.message),
+            });
+        }
+
         const userId = req.userId
         new SuccessResponse({
             message: "Update success !!!",
@@ -75,7 +92,6 @@ class RescueController {
     }
 
     updateRescueUnit = async(req, res, next) => {
-
         new SuccessResponse({
             message: "Remove success !!!",
             metadata:  await  RescueService.updateRescueUnit(req.body)

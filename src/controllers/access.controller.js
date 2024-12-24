@@ -3,9 +3,10 @@
 const AccessService = require('../services/access.service.js')
 const {OkSuccess, CreatedSuccess, SuccessResponse} = require('../core/success.response.js');
 const mongoose = require('mongoose');
-const {BadRequestError} = require("../core/error.response");
+const {userValidationSchema} = require("../validators/user.validation")
 class AccessController {
      login = async (req, res, next) => {
+
         new SuccessResponse({
             message : 'Login Success !!!',
             metadata : await AccessService.login(req.body)
@@ -15,12 +16,16 @@ class AccessController {
     updateUser = async(req, res, next) => {
         const id = req.userId;
         const { name, email, phone, address, role } = req.body;
-        // const file = req.file;
-
         const updateData = { name, email, phone, address };
-        // if (file && file.url) {
-        //     updateData.image = file.url;
-        // }
+
+        const {error} = userValidationSchema.validate(updateData, {abortEarly: false});
+        if (error) {
+            return res.status(400).json({
+                success: false,
+                message: "validate sai",
+                errors: error.details.map((err) => err.message),
+            });
+        }
         return new SuccessResponse({
             message : 'Update success !!!',
             metadata:   await AccessService.updateUser({ id, updateData })

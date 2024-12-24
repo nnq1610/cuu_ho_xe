@@ -18,8 +18,8 @@ app.use(express.urlencoded({
 }))
 
 app.use(cors({
-    origin: 'https://cuu-ho-xe-1.onrender.com',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Các phương thức HTTP được phép
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization','x-access-token', 'x-user-id'],
     credentials: true // Cho phép gửi cookie và xác thực giữa các domain
 }));
