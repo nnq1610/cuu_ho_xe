@@ -38,7 +38,7 @@ const Login = () => {
     if (validateForm()) {
       try {
         const response = await axios.post(
-            `${process.env.e}/login`,
+            `${process.env.REACT_APP_BASE_API_URL}/login`,
             {
               email: formData.email,
               password: formData.password,
