@@ -16,6 +16,7 @@ class RescueController {
             metadata: await RescueService.getRescueUnitByUserId(userId)
         }).send(res)
     }
+
     getActiveRescueUnits = async (req, res, next) => {
 
         new SuccessResponse({

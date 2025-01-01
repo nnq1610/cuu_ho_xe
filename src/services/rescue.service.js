@@ -68,8 +68,6 @@ class RescueUnitService {
         return result;
     }
 
-
-
     static async removeIncidentType({userId, incidentTypeId}) {
 
         const updatedUnit = await RescueUnit.findOneAndUpdate(

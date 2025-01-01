@@ -17,7 +17,9 @@ class AccessController {
         const id = req.userId;
         const { name, email, phone, address, role } = req.body;
         const updateData = { name, email, phone, address };
-
+        //khong cho update cái db nay
+        delete updateData.email
+        delete updateData.role
         const {error} = userValidationSchema.validate(updateData, {abortEarly: false});
         if (error) {
             return res.status(400).json({

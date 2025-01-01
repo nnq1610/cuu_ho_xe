@@ -24,12 +24,10 @@ const userValidationSchema = Joi.object({
         }),
 
     phone: Joi.string()
-        .min(10)
-        .max(15)
+        .pattern(/^[0-9]{10,15}$/) // Chỉ cho phép số từ 10 đến 15 ký tự
         .required()
         .messages({
-            "string.min": "Số điện thoại phải có ít nhất {#limit} ký tự.",
-            "string.max": "Số điện thoại không được vượt quá {#limit} ký tự.",
+            "string.pattern.base": "Số điện thoại chỉ được chứa các chữ số và phải từ 10 đến 15 ký tự.",
             "any.required": "Số điện thoại là bắt buộc.",
         }),
 
